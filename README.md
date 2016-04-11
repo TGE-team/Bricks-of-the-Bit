@@ -1,4 +1,4 @@
-Copyright 2016 Kamil Koczurek / ThunderGames Entertainment
+Copyright 2016 <u>Kamil Koczurek</u><small>/ThunderGames Entertainment</small>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
