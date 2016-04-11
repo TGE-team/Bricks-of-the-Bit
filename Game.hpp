@@ -20,6 +20,7 @@ private:
     sf::Text           continueText;    //Informacja wyświetlana po zniszczeniu piłki
     sf::Text           ballsLeftText;   //Informacja o ilości pozostałych piłek
 public:
+    sf::Font          &font = bitFont;
     sf::RenderWindow window;            //Okno aplikacji
 
     Game();                             //Domyślny konstruktor
@@ -80,7 +81,8 @@ void Game::mainLoop()
     }
 
     sf::Clock frameClock;
-    for(sf::Time frameTime; window.isOpen(); frameTime = frameClock.restart())
+    bool exit = false;
+    for(sf::Time frameTime; window.isOpen() and !exit; frameTime = frameClock.restart())
     {
         for(sf::Event ev; window.pollEvent(ev);)
         {
@@ -133,7 +135,7 @@ void Game::mainLoop()
 
             player.ballsLeft--;
             if(player.ballsLeft == 0)
-                window.close();
+                exit = true;
             else
             {
                 sf::Image   screenshot = window.capture();
