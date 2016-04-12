@@ -40,6 +40,10 @@ void mainMenu()
     texts[1].setPosition(buttons[1].getPosition() + sf::Vector2f(-40, -48));
     //=============
 
+    Leaderboard::readFromFile("leaderboard.dat");
+    Leaderboard::addScore("Kamil-chan's", 55);
+    Leaderboard::writeToFile("leaderboard.dat");
+
     for(bool exit = false; !exit and app.isOpen();)
     {
         for(sf::Event ev; app.pollEvent(ev);)
