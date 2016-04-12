@@ -161,7 +161,7 @@ void Game::mainLoop()
             }
         }
 
-        ball.move();
+        ball.move(frameTime);
         window.draw(ball);
 
         window.display();

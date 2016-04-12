@@ -14,7 +14,7 @@ public:
     Ball();                               //Konstruktor domyślny, jedynym zadaniem jest pozwolenie na stworzenie obiektu bez parametrów, taki obiekt nie może być wykorzystywany w przydatny sposób
     Ball(float, sf::Vector2f);            //Konstruktor tworzący właściwą piłkę, brak odpowaidającej metody create(...) z uwagi na pełną poprawność Ball b = Ball(...)
 
-    void move();                          //Automatyczne poruszanie się piłki na podstawie pędu
+    void move(sf::Time t);                //Automatyczne poruszanie się piłki na podstawie pędu
     void update(sf::FloatRect);           //Kolizja z ramkami okna
     bool collision(sf::RectangleShape&);  //Kolizje ze wszystkim dziedziczącym po sf::RectangleShape lub nim samym
 
@@ -35,9 +35,9 @@ Ball::Ball(float radiaus, sf::Vector2f pos)
     momentum *= 3.f;                                                                           //Zwielokrotnienie pędu (możliwe zmiany)
 }
 
-void Ball::move()
+void Ball::move(sf::Time t)
 {
-    shape.move(momentum); //Poruszenie o pęd wyrażony w różnicy współrzędnych na klatkę (TO DO - uniezależnienie od ilości FPS)
+    shape.move(momentum * (t.asSeconds() / (1.f / 60.f)));
 }
 void Ball::update(sf::FloatRect rect)
 {
