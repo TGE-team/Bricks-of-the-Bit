@@ -1,10 +1,16 @@
 #ifndef BRICK_HPP_INCLUDED
 #define BRICK_HPP_INCLUDED
 
-typedef sf::RectangleShape Brick;
-/*=========================================================================================
-// Zdefiniowanie typu "Brick" równoważnego sf::RectangleShape, istnieje tylko z powodu   //
-// możliwości powstania typu "Brick" dziedziczącego po sf::RectangleShape w przyszłości. //
-//=======================================================================================*/
-
+class Brick : public sf::RectangleShape
+{
+public:
+    static float generation;
+    static unsigned layers;
+    static unsigned x;
+    static unsigned y;
+};
+float Brick::generation = 0.f;
+unsigned Brick::layers = 2;
+unsigned Brick::x = 0;
+unsigned Brick::y = 0;
 #endif // BRICK_HPP_INCLUDED

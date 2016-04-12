@@ -12,7 +12,7 @@ private:
     float radiaus;         //Promień piłki
 public:
     Ball();                               //Konstruktor domyślny, jedynym zadaniem jest pozwolenie na stworzenie obiektu bez parametrów, taki obiekt nie może być wykorzystywany w przydatny sposób
-    Ball(float, sf::Vector2f);            //Konstruktor tworzący właściwą piłkę, brak odpowaidającej metody create(...) z uwagi na pełną poprawność Ball b = Ball(...)
+    Ball(float, sf::Vector2f, sf::Color); //Konstruktor tworzący właściwą piłkę, brak odpowaidającej metody create(...) z uwagi na pełną poprawność Ball b = Ball(...)
 
     void move(sf::Time t);                //Automatyczne poruszanie się piłki na podstawie pędu
     void update(sf::FloatRect);           //Kolizja z ramkami okna
@@ -22,9 +22,9 @@ public:
 };
 
 Ball::Ball() { }
-Ball::Ball(float radiaus, sf::Vector2f pos)
+Ball::Ball(float radiaus, sf::Vector2f pos, sf::Color color)
 {
-    shape.setFillColor(sf::Color(rand() % 155 + 100, rand() % 155 + 100, rand() % 155 + 100)); //Wypełnienie piłki losowym jasnym kolorem
+    shape.setFillColor(color);
     shape.setRadius(radiaus);                                                                  //Ustawienie rozmiaru piłki
     shape.setPosition(pos);                                                                    //UStawienie początkowej pozycji
     shape.setOrigin(radiaus, radiaus);                                                         //Wyśrodkowanie piłki

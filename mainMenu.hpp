@@ -1,6 +1,8 @@
 #ifndef MAINMENU_HPP_INCLUDED
 #define MAINMENU_HPP_INCLUDED
 
+#include "Leaderboards.hpp"
+
 void mainMenu()
 {
     Game game;

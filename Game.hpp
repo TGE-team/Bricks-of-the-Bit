@@ -6,6 +6,8 @@
 #include "Player.hpp"
 #include "toString.hpp"
 
+#include <array>
+
 class Game //Klasa odpowiadająca za rozgrywkę
 {
 private:
@@ -13,6 +15,8 @@ private:
     std::vector<Brick> bricks;          //Cegły do zniszczenia
     Player             player;          //Gracz
     Ball               ball;            //Piłka
+
+    std::array<sf::Color, 4> colors;    //Kolory
 
     sf::Font           bitFont;         //Czcionka BitFont
     sf::Text           comboText;       //Informacja o obecnym "combo"
@@ -24,11 +28,19 @@ public:
     sf::RenderWindow window;            //Okno aplikacji
 
     Game();                             //Domyślny konstruktor
-    void mainLoop();                    //Główna pętla gry
+    uint16_t mainLoop();                //Główna pętla gry
 };
 
 Game::Game()
 {
+    colors = {
+        sf::Color(255, 0, 0),
+        sf::Color(255, 255, 0),
+        sf::Color(0, 255, 0),
+        sf::Color(0, 0, 255)
+    };
+
+
     player.setSize(sf::Vector2f(61, 11));          //Ustawienie rozmiaru gracze
     player.setFillColor(sf::Color(20, 20, 200));   //Ustawienie koloru wypełnienia gracza
     player.setOutlineColor(sf::Color(0, 0, 255));  //Ustawienie koloru obramowania gracza
@@ -58,32 +70,46 @@ Game::Game()
     ballsLeftText.setColor(sf::Color(255, 255, 0));                       //
     //======================================================================
 
-    deathSpace.setFillColor(sf::Color(230, 20, 20, 170)); //Ustawienie koloru prostokąta reprezentujacego obszar niszczenia piłek
+    deathSpace.setFillColor(sf::Color(250, 20, 20, 250)); //Ustawienie koloru prostokąta reprezentujacego obszar niszczenia piłek
 }
-void Game::mainLoop()
+uint16_t Game::mainLoop()
 {
     deathSpace.setSize(sf::Vector2f(window.getView().getSize().x, 40));
     deathSpace.setOrigin(0, 40);
     deathSpace.setPosition(0, window.getView().getSize().y);
     player.setPosition(sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y - 40));
 
-    ball = Ball(10.f, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f));
-
-    for(int x = 1; x < 9; x++)
-    for(int y = 3; y < 7; y++)
-    {
-        bricks.push_back(Brick());
-
-        sf::Color color(rand() % 155 + 100, rand() % 155 + 100, rand() % 155 + 100);
-        bricks.back().setFillColor(color);
-        bricks.back().setPosition(x * 95 - 72, y * 30);
-        bricks.back().setSize(sf::Vector2f(91, 21));
-    }
+    ball = Ball(10.f, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f), colors[rand() % colors.size()]);
 
     sf::Clock frameClock;
     bool exit = false;
+    bool ready = false;
+
+    Brick::x = 1;
+    Brick::y = 3;
     for(sf::Time frameTime; window.isOpen() and !exit; frameTime = frameClock.restart())
     {
+        if(!ready and Brick::generation >= 0.1f)
+        {
+            bricks.push_back(Brick());
+            bricks.back().setFillColor(colors[Brick::y - 3]);
+            bricks.back().setPosition(Brick::x * 95 - 72, Brick::y * 30);
+            bricks.back().setSize(sf::Vector2f(91, 21));
+
+            Brick::x++;
+            if(Brick::y == 2 + Brick::layers and Brick::x == 9)
+                ready = true;
+            else if(Brick::x == 9)
+            {
+                Brick::y++;
+                Brick::x = 1;
+            }
+
+            Brick::generation = 0.f;
+        }
+        else
+            Brick::generation += frameTime.asSeconds();
+
         for(sf::Event ev; window.pollEvent(ev);)
         {
             if(ev.type == sf::Event::Closed)
@@ -129,7 +155,7 @@ void Game::mainLoop()
         }
         if(ball.collision(deathSpace))
         {
-            ball = Ball(10.f, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f));
+            ball = Ball(10.f, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f), colors[rand() % colors.size()]);
             player.setPosition(sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y - 40));
             player.combo = 0;
 
@@ -144,7 +170,7 @@ void Game::mainLoop()
                 sf::Sprite  screenshotS(screenshotT);
                 screenshotS.setPosition(0, 0);
 
-                continueText.setString("Press [enter] to start");
+                continueText.setString("Press [enter] to start!");
                 continueText.setPosition(window.getView().getSize().x / 2.f - (pointsText.getGlobalBounds().width + 80),
                                          window.getView().getSize().y / 2.f - (pointsText.getGlobalBounds().height / 2.f));
 
@@ -157,15 +183,30 @@ void Game::mainLoop()
                     for(sf::Event ev; window.pollEvent(ev);)
                         if(ev.type == sf::Event::KeyPressed and ev.key.code == sf::Keyboard::Return)
                             clicked = true;
+
+                    frameClock.restart();
                 }
             }
         }
+        else if(bricks.size() == 0 and ready)
+        {
+            ready = false;
+            ball = Ball(10.f, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f), colors[rand() % colors.size()]);
+            player.ballsLeft++;
+            Brick::x = 1;
+            Brick::y = 3;
+            if(Brick::layers < 4)
+                Brick::layers++;
+        }
 
-        ball.move(frameTime);
+        if(ready)
+            ball.move(frameTime);
         window.draw(ball);
 
         window.display();
     }
+
+    return player.points;
 }
 
 #endif // GAME_HPP_INCLUDED
