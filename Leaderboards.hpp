@@ -15,6 +15,10 @@ private:
 
 public:
     static void addScore(std::string, uint16_t);
+    static std::map<std::string, uint16_t> & getMap()
+    {
+        return scores;
+    }
 
     static void readFromFile(std::string);
     static void writeToFile(std::string);

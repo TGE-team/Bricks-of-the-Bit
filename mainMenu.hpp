@@ -1,7 +1,7 @@
 #ifndef MAINMENU_HPP_INCLUDED
 #define MAINMENU_HPP_INCLUDED
 
-#include "Leaderboards.hpp"
+#include "records.hpp"
 
 void mainMenu()
 {
@@ -40,10 +40,6 @@ void mainMenu()
     texts[1].setPosition(buttons[1].getPosition() + sf::Vector2f(-40, -48));
     //=============
 
-    Leaderboard::readFromFile("leaderboard.dat");
-    Leaderboard::addScore("Kamil-chan's", 55);
-    Leaderboard::writeToFile("leaderboard.dat");
-
     for(bool exit = false; !exit and app.isOpen();)
     {
         for(sf::Event ev; app.pollEvent(ev);)
@@ -51,7 +47,9 @@ void mainMenu()
             if(ev.type == sf::Event::Closed)
                 exit = true;
             else if(ev.type == sf::Event::MouseButtonPressed and ev.mouseButton.button == sf::Mouse::Left and buttons[0].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(app))))
-                game.mainLoop();
+            {
+                records(app, game.mainLoop());
+            }
             else if(ev.type == sf::Event::MouseButtonPressed and ev.mouseButton.button == sf::Mouse::Left and buttons[1].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(app))))
                 exit = true;
         }
