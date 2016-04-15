@@ -121,10 +121,12 @@ uint16_t Game::mainLoop()
 
         window.draw(deathSpace);
 
+        sf::Vector2f diff = player.getPosition();
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) and player.getPosition().x + (player.getSize().x / 2.f) < window.getView().getSize().x - 10)
             player.move(frameTime.asSeconds() / (1.f / +300.f), 0);
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) and player.getPosition().x - (player.getSize().x / 2.f) > 10.f)
             player.move(frameTime.asSeconds() / (1.f / -300.f), 0);
+        diff -= player.getPosition();
         window.draw(player);
 
         pointsText.setString("points: " + toString(player.points));
@@ -141,7 +143,7 @@ uint16_t Game::mainLoop()
         window.draw(comboText);
 
         ball.update(sf::FloatRect(0, 0, window.getView().getSize().x, window.getView().getSize().y));
-        if(ball.collision(player))
+        if(ball.collision(player, diff / -4.f))
             player.combo = 0;
 
         for(size_t i = 0; i < bricks.size(); i++)
