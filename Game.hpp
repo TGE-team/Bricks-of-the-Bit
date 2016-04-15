@@ -46,9 +46,6 @@ Game::Game()
     player.setOutlineColor(sf::Color(0, 0, 255));  //Ustawienie koloru obramowania gracza
     player.setOutlineThickness(3.f);               //Ustawienie grubości obramowania gracza
     player.setOrigin(30, 5);                       //Wysrodkowanie gracza
-    player.ballsLeft = 3;                          //Ustawienie ilosci pozostałych piłek
-    player.points = 0;                             //Wyzerowanie punktów
-    player.combo = 0;                              //Wyzerowanie "combo"
 
     bitFont.loadFromFile("assets/bitfont.ttf");    //Wczytanie czcionku z pliku
 
@@ -74,6 +71,10 @@ Game::Game()
 }
 uint16_t Game::mainLoop()
 {
+    player.ballsLeft = 3;                          //Ustawienie ilosci pozostałych piłek
+    player.points = 0;                             //Wyzerowanie punktów
+    player.combo = 0;                              //Wyzerowanie "combo"
+
     deathSpace.setSize(sf::Vector2f(window.getView().getSize().x, 40));
     deathSpace.setOrigin(0, 40);
     deathSpace.setPosition(0, window.getView().getSize().y);
@@ -206,6 +207,7 @@ uint16_t Game::mainLoop()
         window.display();
     }
 
+    bricks.clear();
     return player.points;
 }
 
