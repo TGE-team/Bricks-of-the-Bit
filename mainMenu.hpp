@@ -48,7 +48,7 @@ void mainMenu()
                 exit = true;
             else if(ev.type == sf::Event::MouseButtonPressed and ev.mouseButton.button == sf::Mouse::Left and buttons[0].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(app))))
             {
-                records(app, game.mainLoop());
+                records(app, game.mainLoop(), game.font);
             }
             else if(ev.type == sf::Event::MouseButtonPressed and ev.mouseButton.button == sf::Mouse::Left and buttons[1].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(app))))
                 exit = true;
