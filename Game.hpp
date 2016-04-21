@@ -16,8 +16,6 @@ private:
     Player             player;          //Gracz
     Ball               ball;            //Piłka
 
-    std::array<sf::Color, 4> colors;    //Kolory
-
     sf::Font           bitFont;         //Czcionka BitFont
     sf::Text           comboText;       //Informacja o obecnym "combo"
     sf::Text           pointsText;      //Informacja o ilości punktów
@@ -26,6 +24,7 @@ private:
 public:
     sf::Font          &font = bitFont;
     sf::RenderWindow window;            //Okno aplikacji
+    std::array<sf::Color, 4> colors;    //Kolory
 
     Game();                             //Domyślny konstruktor
     uint16_t mainLoop();                //Główna pętla gry

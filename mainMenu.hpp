@@ -7,7 +7,7 @@ void mainMenu()
 {
     Game game;
     game.window.create(sf::VideoMode(800, 600), "Brick Breaker");
-    game.window.setFramerateLimit(120);
+    game.window.setVerticalSyncEnabled(true);
     sf::RenderWindow & app = game.window;
 
     const unsigned BUTTONS = 2;
@@ -40,7 +40,11 @@ void mainMenu()
     texts[1].setPosition(buttons[1].getPosition() + sf::Vector2f(-40, -48));
     //=============
 
-    for(bool exit = false; !exit and app.isOpen();)
+    Ball decoration(10.f, static_cast<sf::Vector2f>(app.getSize()) / 2.f, game.colors[rand() % game.colors.size()]);
+
+    bool exit = false;
+    sf::Clock frameClock;
+    for(sf::Time frameTime; app.isOpen() and !exit; frameTime = frameClock.restart())
     {
         for(sf::Event ev; app.pollEvent(ev);)
         {
@@ -65,6 +69,12 @@ void mainMenu()
         buttons[1].setOutlineColor(buttons[1].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(app))) ? sf::Color(255, 255, 0) : sf::Color(155, 155, 0));
         app.draw(buttons[1]);
         app.draw(texts[1]);
+
+        decoration.update(sf::FloatRect(0, 0, app.getView().getSize().x, app.getView().getSize().y));
+        decoration.collision(buttons[0]);
+        decoration.collision(buttons[1]);
+        decoration.move(frameTime);
+        app.draw(decoration);
 
         app.display();
     }
