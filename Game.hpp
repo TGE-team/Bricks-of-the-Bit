@@ -46,7 +46,7 @@ Game::Game()
     player.setOutlineThickness(3.f);               //Ustawienie grubości obramowania gracza
     player.setOrigin(30, 5);                       //Wysrodkowanie gracza
 
-    bitFont.loadFromFile("assets/bitfont.ttf");    //Wczytanie czcionku z pliku
+    bitFont.loadFromFile("assets/bitfont.ttf");    //Wczytanie czcionki z pliku
 
     //Utworzenie wszystkich tekstów (ustawienie czcionki, rozmiaru i koloru)
     pointsText.setFont(bitFont);                                          //

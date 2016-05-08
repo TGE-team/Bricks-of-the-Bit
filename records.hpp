@@ -74,7 +74,7 @@ void records(sf::RenderWindow & app, uint16_t score, sf::Font & font)
                 exit = true;
             else if(ev.type == sf::Event::TextEntered and getName)
             {
-                if(namePos < currentPlayer.first.size() and isalpha(ev.text.unicode) or ev.text.unicode == ' ' or (ev.text.unicode >= '0' and ev.text.unicode <= '9'))
+                if(namePos < currentPlayer.first.size() && isalpha(ev.text.unicode) || ev.text.unicode == ' ' || (ev.text.unicode >= '0' && ev.text.unicode <= '9'))
                 {
                     if(!mode and namePos != 0)
                         namePos++;

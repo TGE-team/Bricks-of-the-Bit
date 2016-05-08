@@ -1,3 +1,5 @@
 *.pro
 *.pro.*
-build
+*.o
+ui_*
+moc_*
