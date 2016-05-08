@@ -1,5 +1,3 @@
-*.cbp
-*.depend
-*.layout
-bin
-obj
+*.pro
+*.pro.*
+build
