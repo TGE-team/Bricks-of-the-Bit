@@ -21,6 +21,8 @@ private:
     sf::Text           pointsText;      //Informacja o ilości punktów
     sf::Text           continueText;    //Informacja wyświetlana po zniszczeniu piłki
     sf::Text           ballsLeftText;   //Informacja o ilości pozostałych piłek
+
+    sf::Texture        brickTexture;    //Textura cegiełek
 public:
     sf::Font          &font = bitFont;
     sf::RenderWindow window;            //Okno aplikacji
@@ -39,7 +41,9 @@ Game::Game()
         sf::Color(0, 0, 255)
     };
 
+    brickTexture.loadFromFile("assets/default/brick.png");
 
+    player.setTexture(&brickTexture);
     player.setSize(sf::Vector2f(61, 11));          //Ustawienie rozmiaru gracze
     player.setFillColor(sf::Color(20, 20, 200));   //Ustawienie koloru wypełnienia gracza
     player.setOutlineColor(sf::Color(0, 0, 255));  //Ustawienie koloru obramowania gracza
@@ -92,6 +96,7 @@ uint16_t Game::mainLoop()
         if(!ready and Brick::generation >= 0.1f)
         {
             bricks.push_back(Brick());
+            bricks.back().setTexture(&brickTexture);
             bricks.back().setFillColor(colors[Brick::y - 3]);
             bricks.back().setPosition(Brick::x * 95 - 72, Brick::y * 30);
             bricks.back().setSize(sf::Vector2f(91, 21));
@@ -113,7 +118,10 @@ uint16_t Game::mainLoop()
         for(sf::Event ev; window.pollEvent(ev);)
         {
             if(ev.type == sf::Event::Closed)
+            {
                 window.close();
+                ::exit(0);
+            }
         }
 
         window.clear(sf::Color(20, 20, 20));
