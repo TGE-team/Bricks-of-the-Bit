@@ -1,6 +1,7 @@
 *.pro
 *.pro.*
 *.o
+qrc_*
 ui_*
 moc_*
 Retro-Breaker
