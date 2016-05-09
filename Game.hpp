@@ -6,6 +6,7 @@
 #include "Player.hpp"
 #include "toString.hpp"
 
+#include "QSFML/qresourcestream.hpp"
 #include <array>
 
 class Game //Klasa odpowiadająca za rozgrywkę
@@ -21,6 +22,8 @@ private:
     sf::Text           pointsText;      //Informacja o ilości punktów
     sf::Text           continueText;    //Informacja wyświetlana po zniszczeniu piłki
     sf::Text           ballsLeftText;   //Informacja o ilości pozostałych piłek
+
+    qsf::QResourceStream fontStream;    //Strumień do wczytywania czcionki z zasobów
 
 public:
     static sf::Texture        brickTexture;    //Textura cegiełek
@@ -52,7 +55,7 @@ Game::Game()
     player.setOutlineThickness(3.f);               //Ustawienie grubości obramowania gracza
     player.setOrigin(30, 5);                       //Wysrodkowanie gracza
 
-    bitFont.loadFromFile("assets/bitfont.ttf");    //Wczytanie czcionki z pliku
+    bitFont.loadFromStream(fontStream("://bitfont.ttf")); //Wczytanie czcionki z zasobów
 
     //Utworzenie wszystkich tekstów (ustawienie czcionki, rozmiaru i koloru)
     pointsText.setFont(bitFont);                                          //

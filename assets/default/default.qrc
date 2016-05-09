@@ -1,0 +1,8 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>ball.png</file>
+    <file>brick.png</file>
+
+    <file>bitfont.ttf</file>
+</qresource>
+</RCC>

@@ -1,6 +1,7 @@
 #ifndef MAINMENU_HPP_INCLUDED
 #define MAINMENU_HPP_INCLUDED
 
+#include "QSFML/qresourcestream.hpp"
 #include "records.hpp"
 
 void mainMenu()
@@ -10,8 +11,9 @@ void mainMenu()
     game.window.setVerticalSyncEnabled(true);
     sf::RenderWindow & app = game.window;
 
-    Game::brickTexture.loadFromFile("assets/default/brick.png");
-    Game::ballTexture.loadFromFile("assets/default/ball.png");
+    qsf::QResourceStream textureStream;
+    Game::brickTexture.loadFromStream(textureStream("://brick.png"));
+    Game::ballTexture.loadFromStream(textureStream("://ball.png"));
 
     const unsigned BUTTONS = 2;
     sf::RectangleShape buttons[BUTTONS];

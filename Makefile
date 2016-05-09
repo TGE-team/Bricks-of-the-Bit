@@ -48,10 +48,20 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = main.cpp 
-OBJECTS       = main.o
-DIST          = assets/bitfont.ttf \
-		assets/default/brick.png \
+SOURCES       = main.cpp \
+		QSFML/keyconverter.cpp \
+		QSFML/qresourcestream.cpp \
+		QSFML/QSFMLCanvas.cpp \
+		QSFML/QSFMLCanvasEventHandler.cpp qrc_default.cpp
+OBJECTS       = main.o \
+		keyconverter.o \
+		qresourcestream.o \
+		QSFMLCanvas.o \
+		QSFMLCanvasEventHandler.o \
+		qrc_default.o
+DIST          = assets/default/brick.png \
+		assets/default/ball.png \
+		assets/default/bitfont.ttf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -115,7 +125,15 @@ DIST          = assets/bitfont.ttf \
 		mainMenu.hpp \
 		Player.hpp \
 		records.hpp \
-		toString.hpp main.cpp
+		toString.hpp \
+		QSFML/keyconverter.hpp \
+		QSFML/qresourcestream.hpp \
+		QSFML/QSFMLCanvas.hpp \
+		QSFML/qvector2.hpp main.cpp \
+		QSFML/keyconverter.cpp \
+		QSFML/qresourcestream.cpp \
+		QSFML/QSFMLCanvas.cpp \
+		QSFML/QSFMLCanvasEventHandler.cpp
 QMAKE_TARGET  = Retro-Breaker
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = Retro-Breaker
@@ -203,6 +221,7 @@ Makefile: server.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.co
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		server.pro \
+		assets/default/default.qrc \
 		/usr/lib/x86_64-linux-gnu/libQt5Widgets.prl \
 		/usr/lib/x86_64-linux-gnu/libQt5Gui.prl \
 		/usr/lib/x86_64-linux-gnu/libQt5Core.prl
@@ -264,6 +283,7 @@ Makefile: server.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64/qmake.co
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf:
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf:
 server.pro:
+assets/default/default.qrc:
 /usr/lib/x86_64-linux-gnu/libQt5Widgets.prl:
 /usr/lib/x86_64-linux-gnu/libQt5Gui.prl:
 /usr/lib/x86_64-linux-gnu/libQt5Core.prl:
@@ -281,8 +301,9 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents Ball.hpp Brick.hpp Game.hpp Leaderboards.hpp mainMenu.hpp Player.hpp records.hpp toString.hpp $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents assets/default/default.qrc $(DISTDIR)/
+	$(COPY_FILE) --parents Ball.hpp Brick.hpp Game.hpp Leaderboards.hpp mainMenu.hpp Player.hpp records.hpp toString.hpp QSFML/keyconverter.hpp QSFML/qresourcestream.hpp QSFML/QSFMLCanvas.hpp QSFML/qvector2.hpp $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp QSFML/keyconverter.cpp QSFML/qresourcestream.cpp QSFML/QSFMLCanvas.cpp QSFML/QSFMLCanvasEventHandler.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -303,8 +324,15 @@ mocables: compiler_moc_header_make_all compiler_moc_source_make_all
 
 check: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_default.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_default.cpp
+qrc_default.cpp: assets/default/default.qrc \
+		assets/default/brick.png \
+		assets/default/ball.png \
+		assets/default/bitfont.ttf
+	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name default assets/default/default.qrc -o qrc_default.cpp
+
 compiler_moc_header_make_all:
 compiler_moc_header_clean:
 compiler_moc_source_make_all:
@@ -317,7 +345,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: 
+compiler_clean: compiler_rcc_clean 
 
 ####### Compile
 
@@ -327,9 +355,26 @@ main.o: main.cpp Game.hpp \
 		Player.hpp \
 		toString.hpp \
 		mainMenu.hpp \
+		QSFML/qresourcestream.hpp \
 		records.hpp \
 		Leaderboards.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
+
+keyconverter.o: QSFML/keyconverter.cpp QSFML/keyconverter.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o keyconverter.o QSFML/keyconverter.cpp
+
+qresourcestream.o: QSFML/qresourcestream.cpp QSFML/qresourcestream.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qresourcestream.o QSFML/qresourcestream.cpp
+
+QSFMLCanvas.o: QSFML/QSFMLCanvas.cpp QSFML/QSFMLCanvas.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o QSFMLCanvas.o QSFML/QSFMLCanvas.cpp
+
+QSFMLCanvasEventHandler.o: QSFML/QSFMLCanvasEventHandler.cpp QSFML/QSFMLCanvas.hpp \
+		QSFML/keyconverter.hpp
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o QSFMLCanvasEventHandler.o QSFML/QSFMLCanvasEventHandler.cpp
+
+qrc_default.o: qrc_default.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_default.o qrc_default.cpp
 
 ####### Install
 
