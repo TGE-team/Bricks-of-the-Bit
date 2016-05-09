@@ -45,7 +45,7 @@ Game::Game()
         sf::Color(255, 0, 0),
         sf::Color(255, 255, 0),
         sf::Color(0, 255, 0),
-        sf::Color(0, 0, 255)
+        sf::Color(50, 50, 255)
     };
 
     player.setTexture(&brickTexture);
@@ -79,6 +79,8 @@ Game::Game()
 }
 uint16_t Game::mainLoop()
 {
+    Brick::layers = 2;  //Domyślna ilość warstw cegiełek na początku gry
+
     player.ballsLeft = 3;                          //Ustawienie ilosci pozostałych piłek
     player.points = 0;                             //Wyzerowanie punktów
     player.combo = 0;                              //Wyzerowanie "combo"
