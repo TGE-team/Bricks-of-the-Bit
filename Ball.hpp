@@ -14,11 +14,13 @@ public:
     Ball();                                                 //Konstruktor domyślny, jedynym zadaniem jest pozwolenie na stworzenie obiektu bez parametrów, taki obiekt nie może być wykorzystywany w przydatny sposób
     Ball(float, sf::Vector2f, sf::Color, sf::Texture * tx); //Konstruktor tworzący właściwą piłkę, brak odpowaidającej metody create(...) z uwagi na pełną poprawność Ball b = Ball(...)
 
-    void move(sf::Time t);                             //Automatyczne poruszanie się piłki na podstawie pędu
-    void update(sf::FloatRect);                        //Kolizja z ramkami okna
-    bool collision(sf::RectangleShape&, sf::Vector2f); //Kolizje ze wszystkim dziedziczącym po sf::RectangleShape lub nim samym
+    void move(sf::Time t);                                      //Automatyczne poruszanie się piłki na podstawie pędu
+    void update(sf::FloatRect);                                 //Kolizja z ramkami okna
+    bool collision(sf::RectangleShape&, float, sf::Vector2f);   //Kolizje ze wszystkim dziedziczącym po sf::RectangleShape lub nim samym
 
     virtual void draw(sf::RenderTarget&, sf::RenderStates) const; //Funkcja z sf::Drawable, niezbędna do window.draw(instancja_klasy_Ball)
+
+    sf::Vector2f getMomentum();
 };
 
 Ball::Ball() { }
@@ -59,7 +61,7 @@ void Ball::update(sf::FloatRect rect)
             momentum.y *= -1.f;                                                                                           //Odwrócenie pędu względem osi Y
     }
 }
-bool Ball::collision(sf::RectangleShape& box, sf::Vector2f accelerate = sf::Vector2f(0, 0))
+bool Ball::collision(sf::RectangleShape& box, float acceleration = 1.f, sf::Vector2f accelerate = sf::Vector2f(0, 0))
 {
     sf::FloatRect rect = box.getGlobalBounds(); //Pobranie prostokąta obiektu typu sf::RectangleShape
 
@@ -99,7 +101,7 @@ bool Ball::collision(sf::RectangleShape& box, sf::Vector2f accelerate = sf::Vect
         //========================================================================================
 
 
-        momentum *= 1.02f; //Przyspiesznie piłki
+        momentum *= acceleration; //Przyspiesznie piłki
         momentum += accelerate;
 
         return true;       //Potwierdzenie kolizji
@@ -111,6 +113,11 @@ bool Ball::collision(sf::RectangleShape& box, sf::Vector2f accelerate = sf::Vect
 void Ball::draw(sf::RenderTarget& target, sf::RenderStates states) const //Funkcja wywoływana podczas np. app.draw(pilka);
 {
     target.draw(shape, states);                                          //Narysowanie na docelowym sf::RenderTarget (np. ekran) piłki
+}
+
+sf::Vector2f Ball::getMomentum()
+{
+    return momentum;
 }
 
 #endif // BALL_HPP_INCLUDED

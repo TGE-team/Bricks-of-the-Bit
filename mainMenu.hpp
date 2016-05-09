@@ -77,9 +77,14 @@ void mainMenu()
         app.draw(buttons[1]);
         app.draw(texts[1]);
 
+        sf::Vector2f acc = decoration.getMomentum();
+        float acceleration = 1.02f;
+        if(sqrt(acc.x * acc.x + acc.y * acc.y) > 15.f * 60.f * frameTime.asSeconds())
+            acceleration = 1.f;
+
         decoration.update(sf::FloatRect(0, 0, app.getView().getSize().x, app.getView().getSize().y));
-        decoration.collision(buttons[0]);
-        decoration.collision(buttons[1]);
+        decoration.collision(buttons[0], acceleration);
+        decoration.collision(buttons[1], acceleration);
         decoration.move(frameTime);
         app.draw(decoration);
 

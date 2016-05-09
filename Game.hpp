@@ -155,13 +155,13 @@ uint16_t Game::mainLoop()
         window.draw(comboText);
 
         ball.update(sf::FloatRect(0, 0, window.getView().getSize().x, window.getView().getSize().y));
-        if(ball.collision(player, diff / -4.f))
+        if(ball.collision(player, 1.02f, diff / -4.f))
             player.combo = 0;
 
         for(size_t i = 0; i < bricks.size(); i++)
         {
             window.draw(bricks[i]);
-            if(ball.collision(bricks[i]))
+            if(ball.collision(bricks[i], 1.02f))
             {
                 bricks.erase(bricks.begin() + i);
                 player.points += player.combo + 1;
