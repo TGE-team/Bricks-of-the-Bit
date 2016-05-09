@@ -7,14 +7,14 @@ class Ball                 //Klasa piłki
     : public sf::Drawable  //Dziedziczy po sf::Drawable
 {
 private:
-    sf::CircleShape shape; //Właściwa piłka wyświetlana na ekranie
-    sf::Vector2f momentum; //Pęd
-    float radiaus;         //Promień piłki
+    sf::RectangleShape shape; //Właściwa piłka wyświetlana na ekranie
+    sf::Vector2f momentum;    //Pęd
+    float radiaus;            //Promień piłki
 public:
-    Ball();                               //Konstruktor domyślny, jedynym zadaniem jest pozwolenie na stworzenie obiektu bez parametrów, taki obiekt nie może być wykorzystywany w przydatny sposób
-    Ball(float, sf::Vector2f, sf::Color); //Konstruktor tworzący właściwą piłkę, brak odpowaidającej metody create(...) z uwagi na pełną poprawność Ball b = Ball(...)
+    Ball();                                                 //Konstruktor domyślny, jedynym zadaniem jest pozwolenie na stworzenie obiektu bez parametrów, taki obiekt nie może być wykorzystywany w przydatny sposób
+    Ball(float, sf::Vector2f, sf::Color, sf::Texture * tx); //Konstruktor tworzący właściwą piłkę, brak odpowaidającej metody create(...) z uwagi na pełną poprawność Ball b = Ball(...)
 
-    void move(sf::Time t);                             //Automatyczne poruszanie się piłki na podstawie pędu
+    void move(sf::Time t);                             //Automatyczne poruszanie się piłki na podstawie pędu
     void update(sf::FloatRect);                        //Kolizja z ramkami okna
     bool collision(sf::RectangleShape&, sf::Vector2f); //Kolizje ze wszystkim dziedziczącym po sf::RectangleShape lub nim samym
 
@@ -22,10 +22,13 @@ public:
 };
 
 Ball::Ball() { }
-Ball::Ball(float radiaus, sf::Vector2f pos, sf::Color color)
+Ball::Ball(float radiaus, sf::Vector2f pos, sf::Color color, sf::Texture * tx)
 {
+    if(tx != NULL)
+        shape.setTexture(tx, false);
     shape.setFillColor(color);
-    shape.setRadius(radiaus);                                                                  //Ustawienie rozmiaru piłki
+    shape.setSize(sf::Vector2f(2 * radiaus + 1, 2 * radiaus + 1));
+    shape.setOrigin(radiaus, radiaus);
     shape.setPosition(pos);                                                                    //UStawienie początkowej pozycji
     shape.setOrigin(radiaus, radiaus);                                                         //Wyśrodkowanie piłki
 
@@ -67,7 +70,7 @@ bool Ball::collision(sf::RectangleShape& box, sf::Vector2f accelerate = sf::Vect
     rect.height += radiaus * 2.f;                             //
     //==========================================================
 
-    sf::Vector2f theoretical = shape.getPosition() + momentum * 1.01f;     //Teoretyczna pozycja, minimalnie różniąca się od tej w następnej klatce w przypadku braku kolizji
+    sf::Vector2f theoretical = shape.getPosition() + momentum * 1.01f;     //Teoretyczna pozycja, minimalnie różniąca się od tej w następnej klatce w przypadku braku kolizji
 
     if(rect.contains(theoretical) and !rect.contains(shape.getPosition())) //Jeżeli doszłoby do kolizji, ale piłka nie jest w środku obiektu
     {

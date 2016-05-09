@@ -10,6 +10,9 @@ void mainMenu()
     game.window.setVerticalSyncEnabled(true);
     sf::RenderWindow & app = game.window;
 
+    Game::brickTexture.loadFromFile("assets/default/brick.png");
+    Game::ballTexture.loadFromFile("assets/default/ball.png");
+
     const unsigned BUTTONS = 2;
     sf::RectangleShape buttons[BUTTONS];
     sf::Text           texts[BUTTONS];
@@ -40,7 +43,7 @@ void mainMenu()
     texts[1].setPosition(buttons[1].getPosition() + sf::Vector2f(-40, -48));
     //=============
 
-    Ball decoration(10.f, static_cast<sf::Vector2f>(app.getSize()) / 2.f, game.colors[rand() % game.colors.size()]);
+    Ball decoration(10.f, static_cast<sf::Vector2f>(app.getSize()) / 2.f, game.colors[rand() % game.colors.size()], &Game::ballTexture);
 
     bool exit = false;
     sf::Clock frameClock;
@@ -51,7 +54,11 @@ void mainMenu()
             if(ev.type == sf::Event::Closed)
                 exit = true;
             else if(ev.type == sf::Event::MouseButtonPressed and ev.mouseButton.button == sf::Mouse::Left and buttons[0].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(app))))
+            {
                 records(app, game.mainLoop(), game.font);
+                frameTime = sf::seconds(0);
+                frameClock.restart();
+            }
             else if(ev.type == sf::Event::MouseButtonPressed and ev.mouseButton.button == sf::Mouse::Left and buttons[1].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(app))))
                 exit = true;
         }

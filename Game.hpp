@@ -22,8 +22,10 @@ private:
     sf::Text           continueText;    //Informacja wyświetlana po zniszczeniu piłki
     sf::Text           ballsLeftText;   //Informacja o ilości pozostałych piłek
 
-    sf::Texture        brickTexture;    //Textura cegiełek
 public:
+    static sf::Texture        brickTexture;    //Textura cegiełek
+    static sf::Texture        ballTexture;     //Tekstura piłek
+
     sf::Font          &font = bitFont;
     sf::RenderWindow window;            //Okno aplikacji
     std::array<sf::Color, 4> colors;    //Kolory
@@ -31,6 +33,8 @@ public:
     Game();                             //Domyślny konstruktor
     uint16_t mainLoop();                //Główna pętla gry
 };
+sf::Texture Game::brickTexture;
+sf::Texture Game::ballTexture;
 
 Game::Game()
 {
@@ -40,8 +44,6 @@ Game::Game()
         sf::Color(0, 255, 0),
         sf::Color(0, 0, 255)
     };
-
-    brickTexture.loadFromFile("assets/default/brick.png");
 
     player.setTexture(&brickTexture);
     player.setSize(sf::Vector2f(61, 11));          //Ustawienie rozmiaru gracze
@@ -83,7 +85,7 @@ uint16_t Game::mainLoop()
     deathSpace.setPosition(0, window.getView().getSize().y);
     player.setPosition(sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y - 40));
 
-    ball = Ball(10.f, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f), colors[rand() % colors.size()]);
+    ball = Ball(10.f, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f), colors[rand() % colors.size()], &ballTexture);
 
     sf::Clock frameClock;
     bool exit = false;
@@ -165,7 +167,7 @@ uint16_t Game::mainLoop()
         }
         if(ball.collision(deathSpace))
         {
-            ball = Ball(10.f, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f), colors[rand() % colors.size()]);
+            ball = Ball(10.f, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f), colors[rand() % colors.size()], &ballTexture);
             player.setPosition(sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y - 40));
             player.combo = 0;
 
@@ -201,7 +203,7 @@ uint16_t Game::mainLoop()
         else if(bricks.size() == 0 and ready)
         {
             ready = false;
-            ball = Ball(10.f, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f), colors[rand() % colors.size()]);
+            ball = Ball(10.f, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f), colors[rand() % colors.size()], &ballTexture);
             player.ballsLeft++;
             Brick::x = 1;
             Brick::y = 3;
