@@ -1,4 +1,5 @@
-*.pro
+build/*
+build
 *.pro.*
 *.o
 qrc_*
