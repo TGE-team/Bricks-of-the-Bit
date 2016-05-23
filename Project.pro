@@ -17,13 +17,19 @@ HEADERS += \
     Brick.hpp \
     Game.hpp \
     Leaderboards.hpp \
-    mainMenu.hpp \
     Player.hpp \
-    records.hpp \
-    toString.hpp
+    toString.hpp \
+    MainMenu.hpp \
+    Records.hpp
 
 SOURCES += \
-    main.cpp
+    main.cpp \
+    Ball.cpp \
+    Game.cpp \
+    Brick.cpp \
+    Leaderboards.cpp \
+    MainMenu.cpp \
+    Records.cpp
 
 DISTFILES += \
     assets/default/brick.png \

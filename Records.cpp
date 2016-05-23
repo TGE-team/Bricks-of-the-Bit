@@ -1,10 +1,6 @@
-#ifndef RECORDS_HPP_INCLUDED
-#define RECORDS_HPP_INCLUDED
+#include "Records.hpp"
 
-#include <vector>
-#include "Leaderboards.hpp"
-
-void records(sf::RenderWindow & app, uint16_t score, sf::Font & font)
+void records(sf::RenderWindow & app, uint16_t score, sf::Font & font, bool save)
 {
     Leaderboard::readFromFile("leaderboard.dat");
 
@@ -14,16 +10,18 @@ void records(sf::RenderWindow & app, uint16_t score, sf::Font & font)
     for(const item & i : Leaderboard::getMap())
         sorted.push_back(i);
 
-    sorted.push_back(item("___________", score));
+    if(save)
+        sorted.push_back(item("_________________", score));
+
     sort(sorted.begin(), sorted.end(), [](item & i1, item & i2) -> bool { return i1.second > i2.second; });
 
-    bool getName;
+    bool getName = NULL;
     item & currentPlayer =
     [&](std::vector < item > & vect)->item &
     {
         for(int i = 0; i < vect.size(); i++)
         {
-            if(vect[i].first == "___________")
+            if(vect[i].first == "_________________")
             {
                 getName = i < 10;
                 return vect[i];
@@ -74,7 +72,7 @@ void records(sf::RenderWindow & app, uint16_t score, sf::Font & font)
                 exit = true;
             else if(ev.type == sf::Event::TextEntered and getName)
             {
-                if(namePos < currentPlayer.first.size() && isalpha(ev.text.unicode) || ev.text.unicode == ' ' || (ev.text.unicode >= '0' && ev.text.unicode <= '9'))
+                if(namePos < currentPlayer.first.size() && (isalpha(ev.text.unicode) || ev.text.unicode == ' ' || (ev.text.unicode >= '0' && ev.text.unicode <= '9')))
                 {
                     if(!mode and namePos != 0)
                         namePos++;
@@ -133,5 +131,3 @@ void records(sf::RenderWindow & app, uint16_t score, sf::Font & font)
         Leaderboard::writeToFile("leaderboard.dat");
     }
 }
-
-#endif // RECORDS_HPP_INCLUDED

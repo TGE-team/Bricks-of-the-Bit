@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "Game.hpp"
-#include "mainMenu.hpp"
+#include "MainMenu.hpp"
 
 using namespace std;
 

@@ -1,8 +1,4 @@
-#ifndef MAINMENU_HPP_INCLUDED
-#define MAINMENU_HPP_INCLUDED
-
-#include "QSFML/qresourcestream.hpp"
-#include "records.hpp"
+#include "MainMenu.hpp"
 
 void mainMenu()
 {
@@ -91,5 +87,3 @@ void mainMenu()
         app.display();
     }
 }
-
-#endif // MAINMENU_HPP_INCLUDED
