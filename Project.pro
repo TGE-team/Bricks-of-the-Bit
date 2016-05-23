@@ -21,7 +21,15 @@ HEADERS += \
     Player.hpp \
     toString.hpp \
     MainMenu.hpp \
-    Records.hpp
+    Records.hpp \
+    headers/Ball.hpp \
+    headers/Brick.hpp \
+    headers/Game.hpp \
+    headers/Leaderboards.hpp \
+    headers/MainMenu.hpp \
+    headers/Player.hpp \
+    headers/Records.hpp \
+    headers/toString.hpp
 
 SOURCES += \
     main.cpp \

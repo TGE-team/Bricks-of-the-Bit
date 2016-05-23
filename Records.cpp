@@ -1,5 +1,6 @@
 #include "Records.hpp"
 
+#include <iostream>
 void records(sf::RenderWindow & app, uint16_t score, sf::Font & font, bool save)
 {
     Leaderboard::readFromFile("leaderboard.dat");
@@ -13,7 +14,8 @@ void records(sf::RenderWindow & app, uint16_t score, sf::Font & font, bool save)
     if(save)
         sorted.push_back(item("_________________", score));
 
-    sort(sorted.begin(), sorted.end(), [](item & i1, item & i2) -> bool { return i1.second > i2.second; });
+    if(sorted.size() > 0)
+        sort(sorted.begin(), sorted.end(), [](item & i1, item & i2) -> bool { return i1.second > i2.second; });
 
     bool getName = NULL;
     item & currentPlayer =
@@ -31,7 +33,8 @@ void records(sf::RenderWindow & app, uint16_t score, sf::Font & font, bool save)
         return vect[0];
 
     }(sorted);
-    currentPlayer.first.erase(currentPlayer.first.end() - 1);
+    if(getName)
+        currentPlayer.first.erase(currentPlayer.first.end() - 1);
 
     sf::Text record[2];
     for(sf::Text & rec : record)
