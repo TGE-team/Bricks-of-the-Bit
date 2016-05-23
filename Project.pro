@@ -2,7 +2,8 @@ QT       += core gui
 LIBS     += -lsfml-graphics -lsfml-window -lsfml-system -lQSFML
 QMAKE_CXXFLAGS += -std=c++11 -Wno-sign-compare
 
-INCLUDEPATH += /usr/include
+INCLUDEPATH += /usr/include/
+INCLUDEPATH += headers/
 
 DESTDIR=build
 OBJECTS_DIR=build/obj
