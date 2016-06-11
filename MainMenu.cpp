@@ -4,10 +4,11 @@ void mainMenu()
 {
     Game game;
     game.window.create(sf::VideoMode(800, 600), "Brick Breaker");
-    game.window.setVerticalSyncEnabled(true);
+    game.window.setFramerateLimit(120);
     sf::RenderWindow & app = game.window;
 
     qsf::QResourceStream textureStream;
+    Game::backgroundTexture.loadFromStream(textureStream("://city.png"));
     Game::brickTexture.loadFromStream(textureStream("://brick.png"));
     Game::ballTexture.loadFromStream(textureStream("://ball.png"));
 

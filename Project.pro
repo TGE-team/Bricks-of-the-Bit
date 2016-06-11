@@ -41,9 +41,9 @@ SOURCES += \
     Records.cpp
 
 DISTFILES += \
-    assets/default/brick.png \
     assets/default/ball.png \
-    assets/default/bitfont.ttf
+    assets/default/bitfont.ttf \
+    assets/default/city.png
 
 RESOURCES += \
     assets/default/default.qrc

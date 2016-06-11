@@ -1,7 +1,8 @@
 #include "Game.hpp"
 
-sf::Texture Game::brickTexture;
 sf::Texture Game::ballTexture;
+sf::Texture Game::brickTexture;
+sf::Texture Game::backgroundTexture;
 
 Game::Game()
 {
@@ -43,6 +44,10 @@ Game::Game()
 }
 uint16_t Game::mainLoop()
 {
+    background.setTexture(backgroundTexture);
+    background.setScale(1.5f, 1.5f);
+    background.setPosition(0, 0);
+
     Brick::layers = 2;  //Domyślna ilość warstw cegiełek na początku gry
 
     player.ballsLeft = 3;                          //Ustawienie ilosci pozostałych piłek
@@ -95,8 +100,7 @@ uint16_t Game::mainLoop()
             }
         }
 
-        window.clear(sf::Color(20, 20, 20));
-
+        window.draw(background);
         window.draw(deathSpace);
 
         sf::Vector2f diff = player.getPosition();
@@ -115,6 +119,7 @@ uint16_t Game::mainLoop()
 
         ballsLeftText.setString("balls left: " + toString(player.ballsLeft - 1));
         ballsLeftText.setPosition(10, 0);
+
 
         window.draw(ballsLeftText);
         window.draw(pointsText);
@@ -155,9 +160,42 @@ uint16_t Game::mainLoop()
                 continueText.setPosition(window.getView().getSize().x / 2.f - (pointsText.getGlobalBounds().width + 80),
                                          window.getView().getSize().y / 2.f - (pointsText.getGlobalBounds().height / 2.f));
 
+                sf::Vector2f rectPos = continueText.getPosition() + sf::Vector2f(-5, 13);
+
+                sf::Image img;
+                img.create(continueText.getGlobalBounds().width + 10, continueText.getGlobalBounds().height + 8);
+
+                float avgR;
+                float avgG;
+                float avgB;
+
+                for(int x = 0; x < img.getSize().x; x++)
+                for(int y = 0; y < img.getSize().y; y++)
+                {
+                    auto c = screenshot.getPixel(x + rectPos.x, y + rectPos.y);
+
+                    auto u = screenshot.getPixel(x + rectPos.x, y + rectPos.y - 1);
+                    auto d = screenshot.getPixel(x + rectPos.x, y + rectPos.y + 1);
+                    auto r = screenshot.getPixel(x + rectPos.x + 1, y + rectPos.y);
+                    auto l = screenshot.getPixel(x + rectPos.x - 1, y + rectPos.y);
+
+                    c.r = (c.r + u.r + d.r + r.r + l.r) / 10;
+                    c.g = (c.g + u.g + d.g + r.g + l.g) / 10;
+                    c.b = (c.b + u.b + d.b + r.b + l.b) / 10;
+
+                    img.setPixel(x, y, c);
+                }
+
+                blurTexture.loadFromImage(img);
+                continueTextRect.setTexture(&blurTexture);
+
+                continueTextRect.setPosition(rectPos);
+                continueTextRect.setSize(sf::Vector2f(continueText.getGlobalBounds().width + 10, continueText.getGlobalBounds().height + 8));
+
                 for(bool clicked = false; !clicked;)
                 {
                     window.draw(screenshotS);
+                    window.draw(continueTextRect);
                     window.draw(continueText);
                     window.display();
 
