@@ -165,10 +165,6 @@ uint16_t Game::mainLoop()
                 sf::Image img;
                 img.create(continueText.getGlobalBounds().width + 10, continueText.getGlobalBounds().height + 8);
 
-                float avgR;
-                float avgG;
-                float avgB;
-
                 for(int x = 0; x < img.getSize().x; x++)
                 for(int y = 0; y < img.getSize().y; y++)
                 {
