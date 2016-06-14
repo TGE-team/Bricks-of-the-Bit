@@ -44,8 +44,12 @@ Game::Game()
 }
 uint16_t Game::mainLoop()
 {
+    backgroundOffsetRight = true;
+    backgroundOffset = 0.f;
+    backgroundTimer.restart();
+
     background.setTexture(backgroundTexture);
-    background.setScale(1.5f, 1.5f);
+    background.setScale(2.f, 2.f);
     background.setPosition(0, 0);
 
     Brick::layers = 2;  //Domyślna ilość warstw cegiełek na początku gry
@@ -69,6 +73,14 @@ uint16_t Game::mainLoop()
     Brick::y = 3;
     for(sf::Time frameTime; window.isOpen() and !exit; frameTime = frameClock.restart())
     {
+        backgroundOffset += backgroundTimer.restart().asSeconds() * 10.f * (static_cast<int>(backgroundOffsetRight) * 2 - 1);
+        if(backgroundOffset + window.getSize().x > background.getGlobalBounds().width && backgroundOffsetRight)
+            backgroundOffsetRight = false;
+        else if(backgroundOffset < 0 && !backgroundOffsetRight)
+            backgroundOffsetRight = true;
+
+        background.setPosition({-backgroundOffset, -100});
+
         if(!ready and Brick::generation >= 0.1f)
         {
             bricks.push_back(Brick());

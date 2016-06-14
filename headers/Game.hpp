@@ -24,6 +24,9 @@ private:
     Player             player;          //Gracz
     Ball               ball;            //Piłka
 
+    bool               backgroundOffsetRight;
+    float              backgroundOffset;
+    sf::Clock          backgroundTimer;
     sf::Sprite         background;
 
     sf::Font           bitFont;         //Czcionka BitFont
