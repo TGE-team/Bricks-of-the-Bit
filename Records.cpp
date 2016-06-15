@@ -122,7 +122,7 @@ void records(sf::RenderWindow & app, uint16_t score, sf::Font & font, bool save)
         app.display();
     }
 
-    if(getName and currentPlayer.first != "__________")
+    if(getName and currentPlayer.first != "_________________")
     {
         currentPlayer.first.erase(currentPlayer.first.begin() + namePos, currentPlayer.first.end());
 
