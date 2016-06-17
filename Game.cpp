@@ -2,6 +2,7 @@
 
 sf::Texture Game::ballTexture;
 sf::Texture Game::brickTexture;
+sf::Texture Game::framesTexture;
 sf::Texture Game::backgroundTexture;
 
 Game::Game()
@@ -44,6 +45,10 @@ Game::Game()
 }
 uint16_t Game::mainLoop()
 {
+    framesSprite.setTexture(framesTexture);
+    framesSprite.setPosition(0.f, 10.f);
+    framesSprite.setScale(4.f / 3.f, 4.35f / 3.f);
+
     backgroundOffsetRight = true;
     backgroundOffset = 0.f;
     backgroundTimer.restart();
@@ -86,8 +91,8 @@ uint16_t Game::mainLoop()
             bricks.push_back(Brick());
             bricks.back().setTexture(&brickTexture);
             bricks.back().setFillColor(colors[Brick::y - 3]);
-            bricks.back().setPosition(Brick::x * 95 - 72, Brick::y * 30);
-            bricks.back().setSize(sf::Vector2f(91, 21));
+            bricks.back().setPosition(Brick::x * 80, Brick::y * 30);
+            bricks.back().setSize(sf::Vector2f(78, 21));
 
             Brick::x++;
             if(Brick::y == 2 + Brick::layers and Brick::x == 9)
@@ -114,6 +119,7 @@ uint16_t Game::mainLoop()
 
         window.draw(background);
         window.draw(deathSpace);
+        window.draw(framesSprite);
 
         sf::Vector2f diff = player.getPosition();
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) and player.getPosition().x + (player.getSize().x / 2.f) < window.getView().getSize().x - 10)
@@ -137,7 +143,7 @@ uint16_t Game::mainLoop()
         window.draw(pointsText);
         window.draw(comboText);
 
-        ball.update(sf::FloatRect(0, 0, window.getView().getSize().x, window.getView().getSize().y));
+        ball.update(sf::FloatRect(60, 0, window.getView().getSize().x - 120, window.getView().getSize().y));
         if(ball.collision(player, 1.02f, diff / -4.f))
             player.combo = 0;
 
@@ -210,9 +216,9 @@ uint16_t Game::mainLoop()
                     for(sf::Event ev; window.pollEvent(ev);)
                         if(ev.type == sf::Event::KeyPressed and ev.key.code == sf::Keyboard::Return)
                             clicked = true;
-
-                    frameClock.restart();
                 }
+                frameClock.restart();
+                backgroundTimer.restart();
             }
         }
         else if(bricks.size() == 0 and ready)

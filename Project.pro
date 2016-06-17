@@ -43,7 +43,8 @@ SOURCES += \
 DISTFILES += \
     assets/default/ball.png \
     assets/default/bitfont.ttf \
-    assets/default/city.png
+    assets/default/city.png \
+    assets/default/frames.png
 
 RESOURCES += \
     assets/default/default.qrc

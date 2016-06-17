@@ -9,6 +9,7 @@ void mainMenu()
 
     qsf::QResourceStream textureStream;
     Game::backgroundTexture.loadFromStream(textureStream("://city.png"));
+    Game::framesTexture.loadFromStream(textureStream("://frames.png"));
     Game::brickTexture.loadFromStream(textureStream("://brick.png"));
     Game::ballTexture.loadFromStream(textureStream("://ball.png"));
 

@@ -29,6 +29,8 @@ private:
     sf::Clock          backgroundTimer;
     sf::Sprite         background;
 
+    sf::Sprite         framesSprite;
+
     sf::Font           bitFont;         //Czcionka BitFont
     sf::Text           comboText;       //Informacja o obecnym "combo"
     sf::Text           pointsText;      //Informacja o ilości punktów
@@ -44,6 +46,7 @@ public:
     static sf::Texture        brickTexture;    //Textura cegiełek
     static sf::Texture        ballTexture;     //Tekstura piłek
     static sf::Texture        backgroundTexture;
+    static sf::Texture        framesTexture;
 
     sf::Font          &font = bitFont;
     sf::RenderWindow window;            //Okno aplikacji
