@@ -122,9 +122,9 @@ uint16_t Game::mainLoop()
         window.draw(framesSprite);
 
         sf::Vector2f diff = player.getPosition();
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) and player.getPosition().x + (player.getSize().x / 2.f) < window.getView().getSize().x - 10)
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) and player.getPosition().x + (player.getSize().x / 2.f) < window.getView().getSize().x - 70)
             player.move(frameTime.asSeconds() / (1.f / +300.f), 0);
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) and player.getPosition().x - (player.getSize().x / 2.f) > 10.f)
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) and player.getPosition().x - (player.getSize().x / 2.f) > 70.f)
             player.move(frameTime.asSeconds() / (1.f / -300.f), 0);
         diff -= player.getPosition();
         window.draw(player);
