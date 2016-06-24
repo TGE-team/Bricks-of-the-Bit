@@ -123,13 +123,13 @@ uint16_t Game::mainLoop()
         diff -= player.getPosition();
         window.draw(player);
 
-        pointsText.setString("points: " + toString(player.points));
+        pointsText.setString("Points: " + toString(player.points));
         pointsText.setPosition(window.getView().getSize().x / 2.f - (pointsText.getGlobalBounds().width / 2.f), 0);
 
-        comboText.setString("combo: " + toString((int) player.combo + 1) + "x");
+        comboText.setString("Combo: " + toString((int) player.combo + 1) + "x");
         comboText.setPosition(window.getView().getSize().x - 75 - pointsText.getGlobalBounds().width, 0);
 
-        ballsLeftText.setString("balls left: " + toString(player.ballsLeft - 1));
+        ballsLeftText.setString("Balls left: " + toString(player.ballsLeft - 1));
         ballsLeftText.setPosition(75, 0);
 
 
