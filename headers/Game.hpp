@@ -19,7 +19,6 @@
 class Game //Klasa odpowiadająca za rozgrywkę
 {
 private:
-    sf::RectangleShape deathSpace;      //Obszar niszczenia spadających piłek
     std::vector<Brick> bricks;          //Cegły do zniszczenia
     Player             player;          //Gracz
     Ball               ball;            //Piłka

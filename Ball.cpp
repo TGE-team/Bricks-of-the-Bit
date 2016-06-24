@@ -96,3 +96,13 @@ sf::Vector2f Ball::getMomentum()
 {
     return momentum;
 }
+
+float Ball::getRadius()
+{
+    return radiaus;
+}
+
+sf::Vector2f Ball::getPosition()
+{
+    return shape.getPosition();
+}

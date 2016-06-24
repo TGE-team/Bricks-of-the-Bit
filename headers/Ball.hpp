@@ -23,6 +23,9 @@ public:
 
     virtual void draw(sf::RenderTarget&, sf::RenderStates) const; //Funkcja z sf::Drawable, niezbędna do window.draw(instancja_klasy_Ball)
 
+    float getRadius();
+    sf::Vector2f getPosition();
+
     sf::Vector2f getMomentum();
 };
 

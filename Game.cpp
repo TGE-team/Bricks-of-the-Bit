@@ -40,14 +40,12 @@ Game::Game()
     ballsLeftText.setCharacterSize(32);                                   //
     ballsLeftText.setColor(sf::Color(255, 255, 0));                       //
     //======================================================================
-
-    deathSpace.setFillColor(sf::Color(250, 20, 20, 250)); //Ustawienie koloru prostokąta reprezentujacego obszar niszczenia piłek
 }
 uint16_t Game::mainLoop()
 {
     framesSprite.setTexture(framesTexture);
-    framesSprite.setPosition(0.f, 10.f);
-    framesSprite.setScale(4.f / 3.f, 4.35f / 3.f);
+    framesSprite.setPosition(0.f, 0.f);
+    framesSprite.setScale(4.f / 3.f, 5.05f / 3.f);
 
     backgroundOffsetRight = true;
     backgroundOffset = 0.f;
@@ -63,10 +61,7 @@ uint16_t Game::mainLoop()
     player.points = 0;                             //Wyzerowanie punktów
     player.combo = 0;                              //Wyzerowanie "combo"
 
-    deathSpace.setSize(sf::Vector2f(window.getView().getSize().x, 40));
-    deathSpace.setOrigin(0, 40);
-    deathSpace.setPosition(0, window.getView().getSize().y);
-    player.setPosition(sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y - 40));
+    player.setPosition(sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y - 8));
 
     ball = Ball(10.f, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f), colors[rand() % colors.size()], &ballTexture);
 
@@ -118,7 +113,6 @@ uint16_t Game::mainLoop()
         }
 
         window.draw(background);
-        window.draw(deathSpace);
         window.draw(framesSprite);
 
         sf::Vector2f diff = player.getPosition();
@@ -133,17 +127,17 @@ uint16_t Game::mainLoop()
         pointsText.setPosition(window.getView().getSize().x / 2.f - (pointsText.getGlobalBounds().width / 2.f), 0);
 
         comboText.setString("combo: " + toString((int) player.combo + 1) + "x");
-        comboText.setPosition(window.getView().getSize().x / 10.f * 9.f - (pointsText.getGlobalBounds().width / 2.f), 0);
+        comboText.setPosition(window.getView().getSize().x - 75 - pointsText.getGlobalBounds().width, 0);
 
         ballsLeftText.setString("balls left: " + toString(player.ballsLeft - 1));
-        ballsLeftText.setPosition(10, 0);
+        ballsLeftText.setPosition(75, 0);
 
 
         window.draw(ballsLeftText);
         window.draw(pointsText);
         window.draw(comboText);
 
-        ball.update(sf::FloatRect(60, 0, window.getView().getSize().x - 120, window.getView().getSize().y));
+        ball.update(sf::FloatRect(60, 0, window.getView().getSize().x - 120, window.getView().getSize().y + 50));
         if(ball.collision(player, 1.02f, diff / -4.f))
             player.combo = 0;
 
@@ -157,10 +151,10 @@ uint16_t Game::mainLoop()
                 player.combo++;
             }
         }
-        if(ball.collision(deathSpace))
+        if(ball.getPosition().y - ball.getRadius() > window.getSize().y)
         {
             ball = Ball(10.f, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f), colors[rand() % colors.size()], &ballTexture);
-            player.setPosition(sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y - 40));
+            player.setPosition(sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y - 8));
             player.combo = 0;
 
             player.ballsLeft--;
