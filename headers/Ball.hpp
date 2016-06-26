@@ -14,8 +14,8 @@ private:
     sf::Vector2f momentum;    //Pęd
     float radiaus;            //Promień piłki
 public:
-    Ball();                                                 //Konstruktor domyślny, jedynym zadaniem jest pozwolenie na stworzenie obiektu bez parametrów, taki obiekt nie może być wykorzystywany w przydatny sposób
-    Ball(float, sf::Vector2f, sf::Color, sf::Texture * tx); //Konstruktor tworzący właściwą piłkę, brak odpowaidającej metody create(...) z uwagi na pełną poprawność Ball b = Ball(...)
+    Ball();                                                         //Konstruktor domyślny, jedynym zadaniem jest pozwolenie na stworzenie obiektu bez parametrów, taki obiekt nie może być wykorzystywany w przydatny sposób
+    Ball(float ,float, sf::Vector2f, sf::Color, sf::Texture * tx);  //Konstruktor tworzący właściwą piłkę, brak odpowaidającej metody create(...) z uwagi na pełną poprawność Ball b = Ball(...)
 
     void move(sf::Time t);                                      //Automatyczne poruszanie się piłki na podstawie pędu
     void update(sf::FloatRect);                                 //Kolizja z ramkami okna

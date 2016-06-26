@@ -28,6 +28,8 @@ private:
     sf::Clock          backgroundTimer;
     sf::Sprite         background;
 
+    float level;
+
     sf::Sprite         framesSprite;
 
     sf::Font           bitFont;         //Czcionka BitFont

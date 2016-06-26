@@ -56,7 +56,7 @@ void mainMenu()
     texts[2].setPosition(buttons[2].getPosition() + sf::Vector2f(-90, -48));
     //================
 
-    Ball decoration(10.f, static_cast<sf::Vector2f>(app.getSize()) / 2.f, game.colors[rand() % game.colors.size()], &Game::ballTexture);
+    Ball decoration(10.f, 1.f, static_cast<sf::Vector2f>(app.getSize()) / 2.f, game.colors[rand() % game.colors.size()], &Game::ballTexture);
 
     bool exit = false;
     sf::Clock frameClock;

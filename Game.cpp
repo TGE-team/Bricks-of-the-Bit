@@ -40,6 +40,8 @@ Game::Game()
     ballsLeftText.setCharacterSize(32);                                   //
     ballsLeftText.setColor(sf::Color(255, 255, 0));                       //
     //======================================================================
+
+    level = 0;
 }
 uint16_t Game::mainLoop()
 {
@@ -63,7 +65,7 @@ uint16_t Game::mainLoop()
 
     player.setPosition(sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y - 8));
 
-    ball = Ball(10.f, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f), colors[rand() % colors.size()], &ballTexture);
+    ball = Ball(10.f, 1.f, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f), colors[rand() % colors.size()], &ballTexture);
 
     sf::Clock frameClock;
     bool exit = false;
@@ -153,7 +155,7 @@ uint16_t Game::mainLoop()
         }
         if(ball.getPosition().y - ball.getRadius() > window.getSize().y)
         {
-            ball = Ball(10.f, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f), colors[rand() % colors.size()], &ballTexture);
+            ball = Ball(10.f, 1.f + static_cast<float>(level) / 5, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f), colors[rand() % colors.size()], &ballTexture);
             player.setPosition(sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y - 8));
             player.combo = 0;
 
@@ -218,12 +220,14 @@ uint16_t Game::mainLoop()
         else if(bricks.size() == 0 and ready)
         {
             ready = false;
-            ball = Ball(10.f, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f), colors[rand() % colors.size()], &ballTexture);
+            ball = Ball(10.f, 1.f + static_cast<float>(level) / 5, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f), colors[rand() % colors.size()], &ballTexture);
             player.ballsLeft++;
             Brick::x = 1;
             Brick::y = 3;
             if(Brick::layers < 4)
                 Brick::layers++;
+
+            level++;
         }
 
         if(ready)

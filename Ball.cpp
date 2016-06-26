@@ -1,7 +1,7 @@
 #include "Ball.hpp"
 
 Ball::Ball() { }
-Ball::Ball(float radiaus, sf::Vector2f pos, sf::Color color, sf::Texture * tx)
+Ball::Ball(float radiaus, float speedMod, sf::Vector2f pos, sf::Color color, sf::Texture * tx)
 {
     if(tx != NULL)
         shape.setTexture(tx, false);
@@ -15,6 +15,7 @@ Ball::Ball(float radiaus, sf::Vector2f pos, sf::Color color, sf::Texture * tx)
 
     momentum = sf::Vector2f(rand() % 2 * 2 - 1, rand() % 2 * 2 - 1);                           //Nadanie (w pewnym stopniu) losowego pedu
     momentum *= 3.f;                                                                           //Zwielokrotnienie pędu (możliwe zmiany)
+    momentum *= speedMod;
 }
 
 void Ball::move(sf::Time t)
