@@ -3,7 +3,7 @@
 void mainMenu()
 {
     Game game;
-    game.window.create(sf::VideoMode(800, 600), "Brick Breaker");
+    game.window.create(sf::VideoMode(800, 600), "Bricks Of The Bit");
     game.window.setFramerateLimit(120);
     sf::RenderWindow & app = game.window;
 

@@ -13,7 +13,7 @@ Ball::Ball(float radiaus, float speedMod, sf::Vector2f pos, sf::Color color, sf:
 
     this -> radiaus = radiaus;                                                                 //Zapisanie promienia w osobnej zmiennej, przydatne podczas dalszych obliczeń
 
-    momentum = sf::Vector2f(rand() % 2 * 2 - 1, rand() % 2 * 2 - 1);                           //Nadanie (w pewnym stopniu) losowego pedu
+    momentum = sf::Vector2f(rand() % 2 * 2 - 1, -1);                           //Nadanie (w pewnym stopniu) losowego pedu
     momentum *= 3.f;                                                                           //Zwielokrotnienie pędu (możliwe zmiany)
     momentum *= speedMod;
 }

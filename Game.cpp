@@ -210,8 +210,15 @@ uint16_t Game::mainLoop()
                     window.display();
 
                     for(sf::Event ev; window.pollEvent(ev);)
+                    {
                         if(ev.type == sf::Event::KeyPressed and ev.key.code == sf::Keyboard::Return)
                             clicked = true;
+                        if(ev.type == sf::Event::Closed)
+                        {
+                            window.close();
+                            ::exit(0);
+                        }
+                    }
                 }
                 frameClock.restart();
                 backgroundTimer.restart();
