@@ -13,6 +13,8 @@ private:
     sf::RectangleShape shape; //Właściwa piłka wyświetlana na ekranie
     sf::Vector2f momentum;    //Pęd
     float radiaus;            //Promień piłki
+
+    float lastTimeMod;
 public:
     Ball();                                                         //Konstruktor domyślny, jedynym zadaniem jest pozwolenie na stworzenie obiektu bez parametrów, taki obiekt nie może być wykorzystywany w przydatny sposób
     Ball(float ,float, sf::Vector2f, sf::Color, sf::Texture * tx);  //Konstruktor tworzący właściwą piłkę, brak odpowaidającej metody create(...) z uwagi na pełną poprawność Ball b = Ball(...)

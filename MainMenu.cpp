@@ -4,7 +4,7 @@ void mainMenu()
 {
     Game game;
     game.window.create(sf::VideoMode(800, 600), "Bricks Of The Bit");
-    game.window.setFramerateLimit(120);
+    game.window.setFramerateLimit(600); //Symboliczny limit fps
     sf::RenderWindow & app = game.window;
 
     qsf::QResourceStream textureStream;
@@ -104,11 +104,11 @@ void mainMenu()
         if(sqrt(acc.x * acc.x + acc.y * acc.y) > 15.f * 60.f * frameTime.asSeconds())
             acceleration = 1.f;
 
+        decoration.move(frameTime);
         decoration.update(sf::FloatRect(0, 0, app.getView().getSize().x, app.getView().getSize().y));
         decoration.collision(buttons[0], acceleration);
         decoration.collision(buttons[1], acceleration);
         decoration.collision(buttons[2], acceleration);
-        decoration.move(frameTime);
         app.draw(decoration);
 
         app.display();

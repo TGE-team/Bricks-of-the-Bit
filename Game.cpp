@@ -88,8 +88,8 @@ uint16_t Game::mainLoop()
             bricks.push_back(Brick());
             bricks.back().setTexture(&brickTexture);
             bricks.back().setFillColor(colors[Brick::y - 3]);
-            bricks.back().setPosition(Brick::x * 80, Brick::y * 30);
-            bricks.back().setSize(sf::Vector2f(78, 21));
+            bricks.back().setPosition(Brick::x * 82 - 8, Brick::y * 30);
+            bricks.back().setSize(sf::Vector2f(79, 21));
 
             Brick::x++;
             if(Brick::y == 2 + Brick::layers and Brick::x == 9)
@@ -139,6 +139,9 @@ uint16_t Game::mainLoop()
         window.draw(pointsText);
         window.draw(comboText);
 
+        if(ready)
+            ball.move(frameTime);
+
         ball.update(sf::FloatRect(60, 0, window.getView().getSize().x - 120, window.getView().getSize().y + 50));
         if(ball.collision(player, 1.02f, diff / -4.f))
             player.combo = 0;
@@ -151,6 +154,8 @@ uint16_t Game::mainLoop()
                 bricks.erase(bricks.begin() + i);
                 player.points += player.combo + 1;
                 player.combo++;
+
+                break;
             }
         }
         if(ball.getPosition().y - ball.getRadius() > window.getSize().y)
@@ -237,8 +242,6 @@ uint16_t Game::mainLoop()
             level++;
         }
 
-        if(ready)
-            ball.move(frameTime);
         window.draw(ball);
 
         window.display();

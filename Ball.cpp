@@ -13,13 +13,14 @@ Ball::Ball(float radiaus, float speedMod, sf::Vector2f pos, sf::Color color, sf:
 
     this -> radiaus = radiaus;                                                                 //Zapisanie promienia w osobnej zmiennej, przydatne podczas dalszych obliczeń
 
-    momentum = sf::Vector2f(rand() % 2 * 2 - 1, -1);                           //Nadanie (w pewnym stopniu) losowego pedu
+    momentum = sf::Vector2f(rand() % 2 * 2 - 1, -1);                                           //Nadanie (w pewnym stopniu) losowego pedu
     momentum *= 3.f;                                                                           //Zwielokrotnienie pędu (możliwe zmiany)
     momentum *= speedMod;
 }
 
 void Ball::move(sf::Time t)
 {
+    lastTimeMod = (t.asSeconds() / (1.f / 60.f));
     shape.move(momentum * (t.asSeconds() / (1.f / 60.f)));
 }
 void Ball::update(sf::FloatRect rect)
@@ -50,7 +51,9 @@ bool Ball::collision(sf::RectangleShape& box, float acceleration, sf::Vector2f a
     rect.height += radiaus * 2.f;                             //
     //==========================================================
 
-    sf::Vector2f theoretical = shape.getPosition() + momentum * 1.01f;     //Teoretyczna pozycja, minimalnie różniąca się od tej w następnej klatce w przypadku braku kolizji
+    sf::Vector2f theoretical = shape.getPosition() + momentum * lastTimeMod * 1.05f;     //Teoretyczna pozycja, minimalnie różniąca się od tej w następnej klatce w przypadku braku kolizji
+    auto newMomentum = momentum;
+    auto changed = false;
 
     if(rect.contains(theoretical) and !rect.contains(shape.getPosition())) //Jeżeli doszłoby do kolizji, ale piłka nie jest w środku obiektu
     {
@@ -58,29 +61,45 @@ bool Ball::collision(sf::RectangleShape& box, float acceleration, sf::Vector2f a
         if(momentum.y < 0                                                                        //
         and theoretical.y < rect.top + rect.height                                               //
         and shape.getPosition().x > rect.left and shape.getPosition().x < rect.left + rect.width)//
-            momentum.y = -momentum.y;                                                            //
+        {
+            newMomentum.y = -momentum.y;                                                            //
+            changed = true;
+        }
                                                                                                  //
         else if(momentum.y > 0                                                                   //
         and theoretical.y > rect.top                                                             //
         and shape.getPosition().x > rect.left and shape.getPosition().x < rect.left + rect.width)//
-            momentum.y = -momentum.y;                                                            //
+        {
+            newMomentum.y = -momentum.y;                                                            //
+            changed = true;
+        }
         //=========================================================================================
 
         //Ściany lewa/prawa=======================================================================
         if(momentum.x < 0                                                                       //
         and theoretical.x < rect.left + rect.width                                              //
         and shape.getPosition().y > rect.top and shape.getPosition().y < rect.top + rect.height)//
-            momentum.x = -momentum.x;                                                           //
+        {
+            newMomentum.x = -momentum.x;                                                           //
+            changed = true;
+        }
                                                                                                 //
         else if(momentum.x > 0                                                                  //
         and theoretical.x > rect.left                                                           //
         and shape.getPosition().y > rect.top and shape.getPosition().y < rect.top + rect.height)//
-            momentum.x = -momentum.x;                                                           //
+        {
+            newMomentum.x = -momentum.x;                                                           //
+            changed = true;
+        }
         //========================================================================================
 
+        newMomentum *= acceleration; //Przyspiesznie piłki
+        newMomentum += accelerate;
 
-        momentum *= acceleration; //Przyspiesznie piłki
-        momentum += accelerate;
+        if(!changed)
+            newMomentum = -newMomentum;
+
+        momentum = newMomentum;
 
         return true;       //Potwierdzenie kolizji
     }
