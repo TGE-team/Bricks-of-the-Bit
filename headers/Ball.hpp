@@ -19,8 +19,8 @@ public:
     Ball();                                                         //Konstruktor domyślny, jedynym zadaniem jest pozwolenie na stworzenie obiektu bez parametrów, taki obiekt nie może być wykorzystywany w przydatny sposób
     Ball(float ,float, sf::Vector2f, sf::Color, sf::Texture * tx);  //Konstruktor tworzący właściwą piłkę, brak odpowaidającej metody create(...) z uwagi na pełną poprawność Ball b = Ball(...)
 
-    void move(sf::Time t);                                      //Automatyczne poruszanie się piłki na podstawie pędu
-    void update(sf::FloatRect);                                 //Kolizja z ramkami okna
+    void move();                                      //Automatyczne poruszanie się piłki na podstawie pędu
+    void update(sf::FloatRect, sf::Time t);                                 //Kolizja z ramkami okna
     bool collision(sf::RectangleShape& box, float acceleration = 1.f, sf::Vector2f accelerate = sf::Vector2f(0, 0));   //Kolizje ze wszystkim dziedziczącym po sf::RectangleShape lub nim samym
 
     virtual void draw(sf::RenderTarget&, sf::RenderStates) const; //Funkcja z sf::Drawable, niezbędna do window.draw(instancja_klasy_Ball)

@@ -139,10 +139,7 @@ uint16_t Game::mainLoop()
         window.draw(pointsText);
         window.draw(comboText);
 
-        if(ready)
-            ball.move(frameTime);
-
-        ball.update(sf::FloatRect(60, 0, window.getView().getSize().x - 120, window.getView().getSize().y + 50));
+        ball.update(sf::FloatRect(60, 0, window.getView().getSize().x - 120, window.getView().getSize().y + 50), frameTime);
         if(ball.collision(player, 1.02f, diff / -4.f))
             player.combo = 0;
 
@@ -158,6 +155,9 @@ uint16_t Game::mainLoop()
                 break;
             }
         }
+        if(ready)
+            ball.move();
+
         if(ball.getPosition().y - ball.getRadius() > window.getSize().y)
         {
             ball = Ball(10.f, 1.f + static_cast<float>(level) / 5, sf::Vector2f(window.getView().getSize().x / 2.f, window.getView().getSize().y / 2.f), colors[rand() % colors.size()], &ballTexture);

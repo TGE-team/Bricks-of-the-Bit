@@ -18,13 +18,14 @@ Ball::Ball(float radiaus, float speedMod, sf::Vector2f pos, sf::Color color, sf:
     momentum *= speedMod;
 }
 
-void Ball::move(sf::Time t)
+void Ball::move()
+{
+    shape.move(momentum * lastTimeMod);
+}
+void Ball::update(sf::FloatRect rect, sf::Time t)
 {
     lastTimeMod = (t.asSeconds() / (1.f / 60.f));
-    shape.move(momentum * (t.asSeconds() / (1.f / 60.f)));
-}
-void Ball::update(sf::FloatRect rect)
-{
+
     //Pomniejszenie ścian prostokątu o 2*radiaus i wyśrodkowanie
     rect.top    += radiaus;                                   //
     rect.left   += radiaus;                                   //
@@ -94,7 +95,7 @@ bool Ball::collision(sf::RectangleShape& box, float acceleration, sf::Vector2f a
         //========================================================================================
 
         newMomentum *= acceleration; //Przyspiesznie piłki
-        newMomentum += accelerate;
+        newMomentum += accelerate / lastTimeMod;
 
         if(!changed)
             newMomentum = -newMomentum;
