@@ -4,7 +4,6 @@ void mainMenu()
 {
     Game game;
     game.window.create(sf::VideoMode(800, 600), "Bricks Of The Bit");
-    game.window.setFramerateLimit(20); //Symboliczny limit fps
     sf::RenderWindow & app = game.window;
 
     qsf::QResourceStream textureStream;
