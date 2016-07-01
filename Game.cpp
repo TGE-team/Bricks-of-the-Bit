@@ -243,7 +243,6 @@ uint16_t Game::mainLoop()
         }
 
         window.draw(ball);
-
         window.display();
     }
 

@@ -53,7 +53,6 @@ bool Ball::collision(sf::RectangleShape& box, float acceleration, sf::Vector2f a
     //==========================================================
 
     sf::Vector2f theoretical = shape.getPosition() + momentum * lastTimeMod * 1.05f;     //Teoretyczna pozycja, minimalnie różniąca się od tej w następnej klatce w przypadku braku kolizji
-    auto newMomentum = momentum;
     auto changed = false;
 
     if(rect.contains(theoretical) and !rect.contains(shape.getPosition())) //Jeżeli doszłoby do kolizji, ale piłka nie jest w środku obiektu
@@ -63,7 +62,7 @@ bool Ball::collision(sf::RectangleShape& box, float acceleration, sf::Vector2f a
         and theoretical.y < rect.top + rect.height                                               //
         and shape.getPosition().x > rect.left and shape.getPosition().x < rect.left + rect.width)//
         {
-            newMomentum.y = -momentum.y;                                                            //
+            momentum.y = -momentum.y;                                                            //
             changed = true;
         }
                                                                                                  //
@@ -71,7 +70,7 @@ bool Ball::collision(sf::RectangleShape& box, float acceleration, sf::Vector2f a
         and theoretical.y > rect.top                                                             //
         and shape.getPosition().x > rect.left and shape.getPosition().x < rect.left + rect.width)//
         {
-            newMomentum.y = -momentum.y;                                                            //
+            momentum.y = -momentum.y;                                                            //
             changed = true;
         }
         //=========================================================================================
@@ -81,7 +80,7 @@ bool Ball::collision(sf::RectangleShape& box, float acceleration, sf::Vector2f a
         and theoretical.x < rect.left + rect.width                                              //
         and shape.getPosition().y > rect.top and shape.getPosition().y < rect.top + rect.height)//
         {
-            newMomentum.x = -momentum.x;                                                           //
+            momentum.x = -momentum.x;                                                           //
             changed = true;
         }
                                                                                                 //
@@ -89,18 +88,16 @@ bool Ball::collision(sf::RectangleShape& box, float acceleration, sf::Vector2f a
         and theoretical.x > rect.left                                                           //
         and shape.getPosition().y > rect.top and shape.getPosition().y < rect.top + rect.height)//
         {
-            newMomentum.x = -momentum.x;                                                           //
+            momentum.x = -momentum.x;                                                           //
             changed = true;
         }
         //========================================================================================
 
-        newMomentum *= acceleration; //Przyspiesznie piłki
-        newMomentum += accelerate / lastTimeMod;
+        momentum *= acceleration; //Przyspiesznie piłki
+        momentum += accelerate / lastTimeMod;
 
         if(!changed)
-            newMomentum = -newMomentum;
-
-        momentum = newMomentum;
+            momentum = -momentum;
 
         return true;       //Potwierdzenie kolizji
     }
