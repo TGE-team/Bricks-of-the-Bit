@@ -7,7 +7,7 @@ Ball::Ball(float radiaus, float speedMod, sf::Vector2f pos, sf::Color color, sf:
         shape.setTexture(tx, false);
     shape.setFillColor(color);
     shape.setSize(sf::Vector2f(2 * radiaus + 1, 2 * radiaus + 1));
-    shape.setOrigin(radiaus, radiaus);
+	shape.setOrigin(radiaus, radiaus);
     shape.setPosition(pos);                                                                    //UStawienie początkowej pozycji
     shape.setOrigin(radiaus, radiaus);                                                         //Wyśrodkowanie piłki
 

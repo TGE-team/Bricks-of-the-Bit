@@ -10,6 +10,7 @@
 #include "QSFML/qresourcestream.hpp"
 #include "toString.hpp"
 #include "Records.hpp"
+#include "Credits.hpp"
 #include "Game.hpp"
 
 void mainMenu();

@@ -3,7 +3,7 @@
 void mainMenu()
 {
     Game game;
-    game.window.create(sf::VideoMode(800, 600), "Bricks Of The Bit");
+	game.window.create(sf::VideoMode(800, 600), "Bricks Of The Bit (Beta v1.0)");
     sf::RenderWindow & app = game.window;
 
     qsf::QResourceStream textureStream;
@@ -12,7 +12,7 @@ void mainMenu()
     Game::brickTexture.loadFromStream(textureStream("://brick.png"));
     Game::ballTexture.loadFromStream(textureStream("://ball.png"));
 
-    const unsigned BUTTONS = 3;
+	const auto BUTTONS = 4u;
     sf::RectangleShape buttons[BUTTONS];
     sf::Text           texts[BUTTONS];
 
@@ -31,9 +31,9 @@ void mainMenu()
 
     //Wyjście z gry
     buttons[1].setOutlineThickness(2.f);
-    buttons[1].setSize(sf::Vector2f(200, 50));
+	buttons[1].setSize(sf::Vector2f(200, 50));
     buttons[1].setOrigin(buttons[1].getSize() / 2.f);
-    buttons[1].setPosition(sf::Vector2f(app.getSize().x / 2, app.getSize().y / 2 + 150));
+	buttons[1].setPosition(sf::Vector2f(app.getSize().x / 2, app.getSize().y / 2 + 185));
 
     texts[1].setString("Exit");
     texts[1].setFont(game.font);
@@ -46,7 +46,7 @@ void mainMenu()
     buttons[2].setOutlineThickness(2.f);
     buttons[2].setSize(sf::Vector2f(200, 50));
     buttons[2].setOrigin(buttons[1].getSize() / 2.f);
-    buttons[2].setPosition(sf::Vector2f(app.getSize().x / 2, app.getSize().y / 2 + 120 - 55));
+	buttons[2].setPosition(sf::Vector2f(app.getSize().x / 2, app.getSize().y / 2 + 120));
 
     texts[2].setString("Records");
     texts[2].setFont(game.font);
@@ -54,6 +54,19 @@ void mainMenu()
     texts[2].setColor(sf::Color(255, 255, 0));
     texts[2].setPosition(buttons[2].getPosition() + sf::Vector2f(-90, -48));
     //================
+
+	//Autorzy
+	buttons[3].setOutlineThickness(2.f);
+	buttons[3].setSize(sf::Vector2f(200, 50));
+	buttons[3].setOrigin(buttons[1].getSize() / 2.f);
+	buttons[3].setPosition(sf::Vector2f(app.getSize().x / 2, app.getSize().y / 2 + 55));
+
+	texts[3].setString("Credits");
+	texts[3].setFont(game.font);
+	texts[3].setCharacterSize(70);
+	texts[3].setColor(sf::Color(255, 255, 0));
+	texts[3].setPosition(buttons[3].getPosition() + sf::Vector2f(-90, -48));
+	//=======
 
     Ball decoration(10.f, 1.f, static_cast<sf::Vector2f>(app.getSize()) / 2.f, game.colors[rand() % game.colors.size()], &Game::ballTexture);
 
@@ -77,6 +90,12 @@ void mainMenu()
                 frameTime = sf::seconds(0);
                 frameClock.restart();
             }
+			else if(ev.type == sf::Event::MouseButtonPressed and ev.mouseButton.button == sf::Mouse::Left and buttons[3].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(app))))
+			{
+				credits(app, game.font);
+				frameTime = sf::seconds(0);
+				frameClock.restart();
+			}
             else if(ev.type == sf::Event::MouseButtonPressed and ev.mouseButton.button == sf::Mouse::Left and buttons[1].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(app))))
                 exit = true;
         }
@@ -85,18 +104,21 @@ void mainMenu()
 
         buttons[0].setFillColor(buttons[0].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(app))) ? sf::Color(0, 0, 200) : sf::Color(0, 0, 100));
         buttons[0].setOutlineColor(buttons[0].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(app))) ? sf::Color(255, 255, 0) : sf::Color(155, 155, 0));
-        app.draw(buttons[0]);
-        app.draw(texts[0]);
 
         buttons[1].setFillColor(buttons[1].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(app))) ? sf::Color(0, 0, 200) : sf::Color(0, 0, 100));
         buttons[1].setOutlineColor(buttons[1].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(app))) ? sf::Color(255, 255, 0) : sf::Color(155, 155, 0));
-        app.draw(buttons[1]);
-        app.draw(texts[1]);
 
         buttons[2].setFillColor(buttons[2].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(app))) ? sf::Color(0, 0, 200) : sf::Color(0, 0, 100));
         buttons[2].setOutlineColor(buttons[2].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(app))) ? sf::Color(255, 255, 0) : sf::Color(155, 155, 0));
-        app.draw(buttons[2]);
-        app.draw(texts[2]);
+
+		buttons[3].setFillColor(buttons[3].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(app))) ? sf::Color(0, 0, 200) : sf::Color(0, 0, 100));
+		buttons[3].setOutlineColor(buttons[3].getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(app))) ? sf::Color(255, 255, 0) : sf::Color(155, 155, 0));
+
+		for(auto i = 0; i < BUTTONS; i++)
+		{
+			app.draw(buttons[i]);
+			app.draw(texts[i]);
+		}
 
         sf::Vector2f acc = decoration.getMomentum();
         float acceleration = 1.02f;
@@ -104,11 +126,10 @@ void mainMenu()
             acceleration = 1.f;
 
         decoration.update(sf::FloatRect(0, 0, app.getView().getSize().x, app.getView().getSize().y), frameTime);
-        decoration.collision(buttons[0], acceleration);
-        decoration.collision(buttons[1], acceleration);
-        decoration.collision(buttons[2], acceleration);
-        decoration.move();
+		for(auto i = 0; i < BUTTONS; i++)
+			decoration.collision(buttons[i], acceleration);
 
+        decoration.move();
         app.draw(decoration);
 
         app.display();

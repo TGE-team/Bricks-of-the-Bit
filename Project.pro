@@ -29,7 +29,8 @@ HEADERS += \
     headers/MainMenu.hpp \
     headers/Player.hpp \
     headers/Records.hpp \
-    headers/toString.hpp
+    headers/toString.hpp \
+    headers/Credits.hpp
 
 SOURCES += \
     main.cpp \
@@ -38,7 +39,8 @@ SOURCES += \
     Brick.cpp \
     Leaderboards.cpp \
     MainMenu.cpp \
-    Records.cpp
+    Records.cpp \
+    Credits.cpp
 
 DISTFILES += \
     assets/default/ball.png \
