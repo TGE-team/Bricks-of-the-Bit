@@ -79,6 +79,10 @@ uint16_t Game::mainLoop()
     Brick::y = 3;
     for(sf::Time frameTime; window.isOpen() and !exit; frameTime = frameClock.restart())
     {
+		float acceleration = 1.0f + (11 - level) * 0.002;
+		if(level >= 11)
+			acceleration = 1.005;
+
         backgroundOffset += backgroundTimer.restart().asSeconds() * 10.f * (static_cast<int>(backgroundOffsetRight) * 2 - 1);
         if(backgroundOffset + window.getSize().x > background.getGlobalBounds().width && backgroundOffsetRight)
             backgroundOffsetRight = false;
@@ -123,9 +127,9 @@ uint16_t Game::mainLoop()
 
         sf::Vector2f diff = player.getPosition();
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) and player.getPosition().x + (player.getSize().x / 2.f) < window.getView().getSize().x - 70)
-            player.move(frameTime.asSeconds() / (1.f / +300.f), 0);
+			player.move(frameTime.asSeconds() * +350.f, 0);
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) and player.getPosition().x - (player.getSize().x / 2.f) > 70.f)
-            player.move(frameTime.asSeconds() / (1.f / -300.f), 0);
+			player.move(frameTime.asSeconds() * -350.f, 0);
         diff -= player.getPosition();
         window.draw(player);
 
@@ -146,13 +150,13 @@ uint16_t Game::mainLoop()
 		window.draw(fpsMeter);
 
         ball.update(sf::FloatRect(60, 0, window.getView().getSize().x - 120, window.getView().getSize().y + 50), frameTime);
-        if(ball.collision(player, 1.02f, diff / -4.f))
+		if(ball.collision(player, acceleration, diff / -4.f))
             player.combo = 0;
 
         for(size_t i = 0; i < bricks.size(); i++)
         {
             window.draw(bricks[i]);
-            if(ball.collision(bricks[i], 1.02f))
+			if(ball.collision(bricks[i], acceleration))
             {
                 bricks.erase(bricks.begin() + i);
                 player.points += player.combo + 1;
