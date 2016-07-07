@@ -1,3 +1,6 @@
+TARGET = Retro-Breaker
+TEMPLATE = app
+
 QT       += core gui
 LIBS     += -lsfml-graphics -lsfml-window -lsfml-system -lQSFML
 QMAKE_CXXFLAGS += -std=c++11 -Wno-sign-compare
@@ -9,9 +12,6 @@ DESTDIR=build
 OBJECTS_DIR=build/obj
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-TARGET = Retro-Breaker
-TEMPLATE = app
 
 HEADERS += \
     Ball.hpp \
@@ -30,7 +30,8 @@ HEADERS += \
     headers/Player.hpp \
     headers/Records.hpp \
     headers/toString.hpp \
-    headers/Credits.hpp
+    headers/Credits.hpp \
+    headers/FpsMeter.hpp
 
 SOURCES += \
     main.cpp \
@@ -40,7 +41,8 @@ SOURCES += \
     Leaderboards.cpp \
     MainMenu.cpp \
     Records.cpp \
-    Credits.cpp
+    Credits.cpp \
+    FpsMeter.cpp
 
 DISTFILES += \
     assets/default/ball.png \

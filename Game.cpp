@@ -7,6 +7,10 @@ sf::Texture Game::backgroundTexture;
 
 Game::Game()
 {
+	fpsMeter = FpsMeter("Loading...", font, 30);
+	fpsMeter.setColor({255, 255, 0});
+	fpsMeter.setPosition({75, 30});
+
     colors = {
         sf::Color(255, 0, 0),
         sf::Color(255, 255, 0),
@@ -134,10 +138,12 @@ uint16_t Game::mainLoop()
         ballsLeftText.setString("Balls left: " + toString(player.ballsLeft - 1));
         ballsLeftText.setPosition(75, 0);
 
+		fpsMeter.update();
 
         window.draw(ballsLeftText);
         window.draw(pointsText);
         window.draw(comboText);
+		window.draw(fpsMeter);
 
         ball.update(sf::FloatRect(60, 0, window.getView().getSize().x - 120, window.getView().getSize().y + 50), frameTime);
         if(ball.collision(player, 1.02f, diff / -4.f))

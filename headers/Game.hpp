@@ -5,6 +5,7 @@
 #include "Brick.hpp"
 #include "Player.hpp"
 #include "toString.hpp"
+#include "FpsMeter.hpp"
 
 #include "QSFML/qresourcestream.hpp"
 #include <array>
@@ -27,6 +28,7 @@ private:
     float              backgroundOffset;
     sf::Clock          backgroundTimer;
     sf::Sprite         background;
+	FpsMeter		   fpsMeter;
 
     float level;
 
