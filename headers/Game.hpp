@@ -46,6 +46,7 @@ private:
     qsf::QResourceStream fontStream;    //Strumień do wczytywania czcionki z zasobów
 
 public:
+	static sf::Texture		  TGELogoTexture;
     static sf::Texture        brickTexture;    //Textura cegiełek
     static sf::Texture        ballTexture;     //Tekstura piłek
     static sf::Texture        backgroundTexture;

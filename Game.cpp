@@ -3,6 +3,7 @@
 sf::Texture Game::ballTexture;
 sf::Texture Game::brickTexture;
 sf::Texture Game::framesTexture;
+sf::Texture Game::TGELogoTexture;
 sf::Texture Game::backgroundTexture;
 
 Game::Game()
