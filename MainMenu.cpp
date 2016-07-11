@@ -105,7 +105,7 @@ void mainMenu()
 
     bool exit = false;
     sf::Clock frameClock;
-    for(sf::Time frameTime; app.isOpen() and !exit; frameTime = frameClock.restart())
+	for(sf::Time frameTime; app.isOpen() and !exit; frameTime = frameClock.restart())
     {
         for(sf::Event ev; app.pollEvent(ev);)
         {

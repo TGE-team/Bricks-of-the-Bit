@@ -11,7 +11,7 @@ void credits(sf::RenderWindow &app, sf::Font &font, sf::Texture TGELogoTex)
 	sf::Text texts[4];
 	for(auto i = 0u; i < 4; i++)
 	{
-		texts[i].setColor({255, i == 0u ? 127 : 255, 0});
+		texts[i].setColor({255, i == 0u ? 127_uc : 255_uc, 0});
 		texts[i].setCharacterSize(i == 0u ? 80 : 66);
 		texts[i].setFont(font);
 	}
