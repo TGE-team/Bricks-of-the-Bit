@@ -11,7 +11,7 @@ void credits(sf::RenderWindow &app, sf::Font &font, sf::Texture TGELogoTex)
 	sf::Text texts[4];
 	for(auto i = 0u; i < 4; i++)
 	{
-		texts[i].setColor({255, i == 0u ? 127_uc : 255_uc, 0});
+		texts[i].setFillColor({255, i == 0u ? 127_uc : 255_uc, 0});
 		texts[i].setCharacterSize(i == 0u ? 80 : 66);
 		texts[i].setFont(font);
 	}
@@ -27,7 +27,7 @@ void credits(sf::RenderWindow &app, sf::Font &font, sf::Texture TGELogoTex)
 
 	//Nazwa studia
 	sf::Text studioText;
-	studioText.setColor({255, 255, 0});
+	studioText.setFillColor({255, 255, 0});
 	studioText.setCharacterSize(48);
 	studioText.setFont(font);
 	studioText.setString("Thunder Games Entertainment, 2016");
@@ -43,7 +43,7 @@ void credits(sf::RenderWindow &app, sf::Font &font, sf::Texture TGELogoTex)
 			if(ev.type == sf::Event::Closed)
 				app.close();
 			else if((ev.type == sf::Event::KeyPressed && ev.key.code == sf::Keyboard::Escape)
-				or	(ev.type == sf::Event::MouseButtonPressed and ev.mouseButton.button == sf::Mouse::Left and button.getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(app)))))
+			or	(ev.type == sf::Event::MouseButtonPressed and ev.mouseButton.button == sf::Mouse::Left and button.getGlobalBounds().contains(static_cast<sf::Vector2f>(sf::Mouse::getPosition(app)))))
 				return;
 		}
 

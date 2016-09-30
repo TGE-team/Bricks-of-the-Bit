@@ -26,7 +26,7 @@ void mainMenu()
 	texts[0].setString("Play!");
 	texts[0].setFont(game.font);
 	texts[0].setCharacterSize(90);
-	texts[0].setColor(sf::Color(255, 255, 0));
+	texts[0].setFillColor(sf::Color(255, 255, 0));
 	texts[0].setPosition(buttons[0].getPosition() + sf::Vector2f(-75, -63));
 	//================
 
@@ -39,7 +39,7 @@ void mainMenu()
 	texts[1].setString("Exit");
 	texts[1].setFont(game.font);
 	texts[1].setCharacterSize(70);
-	texts[1].setColor(sf::Color(255, 255, 0));
+	texts[1].setFillColor(sf::Color(255, 255, 0));
 	texts[1].setPosition(buttons[1].getPosition() + sf::Vector2f(-40, -48));
 	//=============
 
@@ -52,7 +52,7 @@ void mainMenu()
 	texts[2].setString("Records");
 	texts[2].setFont(game.font);
 	texts[2].setCharacterSize(70);
-	texts[2].setColor(sf::Color(255, 255, 0));
+	texts[2].setFillColor(sf::Color(255, 255, 0));
 	texts[2].setPosition(buttons[2].getPosition() + sf::Vector2f(-90, -48));
 	//================
 
@@ -65,7 +65,7 @@ void mainMenu()
 	texts[3].setString("Credits");
 	texts[3].setFont(game.font);
 	texts[3].setCharacterSize(70);
-	texts[3].setColor(sf::Color(255, 255, 0));
+	texts[3].setFillColor(sf::Color(255, 255, 0));
 	texts[3].setPosition(buttons[3].getPosition() + sf::Vector2f(-80, -48));
 	//=======
 
@@ -74,7 +74,7 @@ void mainMenu()
 	gameName.setString("Bricks of the Bit");
 	gameName.setFont(game.font);
 	gameName.setCharacterSize(96);
-	gameName.setColor(sf::Color(255, 0, 0));
+	gameName.setFillColor(sf::Color(255, 0, 0));
 	gameName.setPosition(app.getSize().x / 2 - gameName.getGlobalBounds().width / 2, 20);
 
 	//Wersja gry
@@ -82,7 +82,7 @@ void mainMenu()
 	gameVersion.setString("Game in version Beta 1.0");
 	gameVersion.setFont(game.font);
 	gameVersion.setCharacterSize(32);
-	gameVersion.setColor(sf::Color(255, 127, 0));
+	gameVersion.setFillColor(sf::Color(255, 127, 0));
 	gameVersion.setPosition(app.getSize().x / 2 - gameVersion.getGlobalBounds().width / 2, 100);
 
 	//Studio
@@ -90,7 +90,7 @@ void mainMenu()
 	studioText.setString("Created by Thunder Games Entertainment, 11-07-2016.");
 	studioText.setFont(game.font);
 	studioText.setCharacterSize(32);
-	studioText.setColor(sf::Color(255, 255, 0));
+	studioText.setFillColor(sf::Color(255, 255, 0));
 	studioText.setPosition(app.getSize().x / 2 - studioText.getGlobalBounds().width / 2, app.getSize().y - 65);
 
 	//Prawa
@@ -98,7 +98,7 @@ void mainMenu()
 	rightsText.setString(L"©2016, TGE. All rights reserved.");
 	rightsText.setFont(game.font);
 	rightsText.setCharacterSize(32);
-	rightsText.setColor(sf::Color(255, 255, 0));
+	rightsText.setFillColor(sf::Color(255, 255, 0));
 	rightsText.setPosition(app.getSize().x / 2 - rightsText.getGlobalBounds().width / 2, app.getSize().y - 40);
 
 	Ball decoration(10.f, 1.f, static_cast<sf::Vector2f>(app.getSize()) / 2.f, game.colors[rand() % game.colors.size()], &Game::ballTexture);

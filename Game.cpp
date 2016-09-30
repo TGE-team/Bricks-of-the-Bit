@@ -9,7 +9,7 @@ sf::Texture Game::backgroundTexture;
 Game::Game()
 {
 	fpsMeter = FpsMeter("Loading...", font, 30);
-	fpsMeter.setColor({255, 255, 0});
+	fpsMeter.setFillColor({255, 255, 0});
 	fpsMeter.setPosition({75, 30});
 
 	colors = {
@@ -31,19 +31,19 @@ Game::Game()
 	//Utworzenie wszystkich tekstów (ustawienie czcionki, rozmiaru i koloru)
 	pointsText.setFont(bitFont);                                          //
 	pointsText.setCharacterSize(38);                                      //
-	pointsText.setColor(sf::Color(255, 255, 0));                          //
+	pointsText.setFillColor(sf::Color(255, 255, 0));                      //
 	//
 	comboText.setFont(bitFont);                                           //
 	comboText.setCharacterSize(32);                                       //
-	comboText.setColor(sf::Color(255, 255, 0));                           //
+	comboText.setFillColor(sf::Color(255, 255, 0));                       //
 	//
 	continueText.setFont(bitFont);                                        //
 	continueText.setCharacterSize(45);                                    //
-	continueText.setColor(sf::Color(255, 255, 0));                        //
+	continueText.setFillColor(sf::Color(255, 255, 0));                    //
 	//
 	ballsLeftText.setFont(bitFont);                                       //
 	ballsLeftText.setCharacterSize(32);                                   //
-	ballsLeftText.setColor(sf::Color(255, 255, 0));                       //
+	ballsLeftText.setFillColor(sf::Color(255, 255, 0));                   //
 	//======================================================================
 }
 bool Game::pause()
@@ -290,11 +290,12 @@ uint16_t Game::mainLoop()
 				exit = true;
 			else
 			{
-				sf::Image   screenshot = window.capture();
 				sf::Texture screenshotT;
-				screenshotT.loadFromImage(screenshot);
+				screenshotT.update(window);
 				sf::Sprite  screenshotS(screenshotT);
 				screenshotS.setPosition(0, 0);
+
+				sf::Image screenshot = screenshotT.copyToImage();
 
 				continueText.setString("Press [enter] to start!");
 				continueText.setPosition(window.getView().getSize().x / 2.f - (pointsText.getGlobalBounds().width + 80),

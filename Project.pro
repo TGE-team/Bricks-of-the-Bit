@@ -3,9 +3,8 @@ TEMPLATE = app
 
 QT       += core gui
 LIBS     += -lsfml-graphics -lsfml-window -lsfml-system -lQSFML
-QMAKE_CXXFLAGS += -std=c++11 -Wno-sign-compare -s
+QMAKE_CXXFLAGS += -std=c++11 -Wno-sign-compare -s -Wno-narrowing
 
-#INCLUDEPATH += /usr/include/
 INCLUDEPATH += headers/
 
 DESTDIR=build
