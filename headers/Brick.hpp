@@ -3,13 +3,27 @@
 
 #include <SFML/Graphics/RectangleShape.hpp>
 
-class Brick : public sf::RectangleShape
+class Brick
+: public sf::RectangleShape
 {
 public:
-    static float generation;
-    static unsigned layers;
-    static unsigned x;
-    static unsigned y;
+	enum Property
+	{
+		NONE,
+		BONUS,
+		RESISTANT,
+		EXPLOSIVE,
+		RANDOM_EXPLOSIVE
+	};
+
+	Brick(Property = NONE);
+
+	static float generation;
+	static unsigned layers;
+	static unsigned x;
+	static unsigned y;
+
+	Property property;
 };
 
 #endif // BRICK_HPP_INCLUDED

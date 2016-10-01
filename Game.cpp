@@ -196,7 +196,19 @@ uint16_t Game::mainLoop()
 
 		if(!ready and Brick::generation >= 0.1f)
 		{
-			bricks.push_back(Brick());
+			Brick::Property prop = Brick::Property::NONE;
+
+			auto randomized = rand() % 21;
+			if(randomized >= 13 && randomized < 15)
+				prop = Brick::Property::BONUS;
+			else if(randomized >= 15 && randomized < 17)
+				prop = Brick::Property::RESISTANT;
+			else if(randomized >= 17 && randomized < 19)
+				prop = Brick::Property::EXPLOSIVE;
+			else if(randomized >= 19)
+				prop = Brick::Property::RANDOM_EXPLOSIVE;
+
+			bricks.push_back(Brick(prop));
 			bricks.back().setTexture(&brickTexture);
 			bricks.back().setFillColor(colors[Brick::y - 3]);
 			bricks.back().setPosition(Brick::x * 82 - 8, Brick::y * 30);
@@ -291,6 +303,7 @@ uint16_t Game::mainLoop()
 			else
 			{
 				sf::Texture screenshotT;
+				screenshotT.create(window.getSize().x, window.getSize().y);
 				screenshotT.update(window);
 				sf::Sprite  screenshotS(screenshotT);
 				screenshotS.setPosition(0, 0);
