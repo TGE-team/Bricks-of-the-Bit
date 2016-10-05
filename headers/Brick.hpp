@@ -9,10 +9,12 @@ class Brick
 public:
 	enum Property
 	{
-		NONE,
+		NONE = 0,
 		BONUS,
-		RESISTANT,
 		EXPLOSIVE,
+		RESISTANT_3,
+		RESISTANT_2,
+		RESISTANT_1,
 		RANDOM_EXPLOSIVE
 	};
 

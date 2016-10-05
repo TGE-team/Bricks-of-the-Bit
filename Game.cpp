@@ -1,10 +1,11 @@
 #include "Game.hpp"
+#include <iostream>
 
 sf::Texture Game::ballTexture;
-sf::Texture Game::brickTexture;
 sf::Texture Game::framesTexture;
 sf::Texture Game::TGELogoTexture;
 sf::Texture Game::backgroundTexture;
+std::map<Brick::Property, sf::Texture> Game::brickTextures;
 
 Game::Game()
 {
@@ -19,8 +20,8 @@ Game::Game()
 	sf::Color(50, 50, 255)
 	};
 
-	player.setTexture(&brickTexture);
-	player.setSize(sf::Vector2f(61, 11));          //Ustawienie rozmiaru gracze
+	player.setTexture(&brickTextures[Brick::Property::NONE]);
+	player.setSize(sf::Vector2f(61, 11));          //Ustawienie rozmiaru gracza
 	player.setFillColor(sf::Color(20, 20, 200));   //Ustawienie koloru wypełnienia gracza
 	player.setOutlineColor(sf::Color(0, 0, 255));  //Ustawienie koloru obramowania gracza
 	player.setOutlineThickness(3.f);               //Ustawienie grubości obramowania gracza
@@ -196,20 +197,11 @@ uint16_t Game::mainLoop()
 
 		if(!ready and Brick::generation >= 0.1f)
 		{
-			Brick::Property prop = Brick::Property::NONE;
-
-			auto randomized = rand() % 21;
-			if(randomized >= 13 && randomized < 15)
-				prop = Brick::Property::BONUS;
-			else if(randomized >= 15 && randomized < 17)
-				prop = Brick::Property::RESISTANT;
-			else if(randomized >= 17 && randomized < 19)
-				prop = Brick::Property::EXPLOSIVE;
-			else if(randomized >= 19)
-				prop = Brick::Property::RANDOM_EXPLOSIVE;
+			Brick::Property prop = Brick::Property::EXPLOSIVE;
+			prop = static_cast<Brick::Property>(bricks.size() % 8);
 
 			bricks.push_back(Brick(prop));
-			bricks.back().setTexture(&brickTexture);
+			bricks.back().setTexture(&brickTextures[prop]);
 			bricks.back().setFillColor(colors[Brick::y - 3]);
 			bricks.back().setPosition(Brick::x * 82 - 8, Brick::y * 30);
 			bricks.back().setSize(sf::Vector2f(79, 21));

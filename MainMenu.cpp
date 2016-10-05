@@ -10,8 +10,30 @@ void mainMenu()
 	Game::backgroundTexture.loadFromStream(textureStream("://city.png"));
 	Game::framesTexture.loadFromStream(textureStream("://frames.png"));
 	Game::TGELogoTexture.loadFromStream(textureStream("://logo.png"));
-	Game::brickTexture.loadFromStream(textureStream("://brick.png"));
 	Game::ballTexture.loadFromStream(textureStream("://ball.png"));
+
+	const auto DEBUG_TEXTURES = false;
+
+	if(DEBUG_TEXTURES)
+	{
+		Game::brickTextures[Brick::Property::NONE].loadFromFile("tex/brick.png");
+		Game::brickTextures[Brick::Property::BONUS].loadFromFile("tex/brick-bonus.png");
+		Game::brickTextures[Brick::Property::EXPLOSIVE].loadFromFile("tex/brick-explosive.png");
+		Game::brickTextures[Brick::Property::RESISTANT_3].loadFromFile("tex/brick-resistant-3.png");
+		Game::brickTextures[Brick::Property::RESISTANT_2].loadFromFile("tex/brick-resistant-2.png");
+		Game::brickTextures[Brick::Property::RESISTANT_1].loadFromFile("tex/brick-resistant-1.png");
+		Game::brickTextures[Brick::Property::RANDOM_EXPLOSIVE].loadFromFile("tex/brick-random-explosive.png");
+	}
+	else
+	{
+		Game::brickTextures[Brick::Property::NONE].loadFromStream(textureStream("://brick.png"));
+		Game::brickTextures[Brick::Property::BONUS].loadFromStream(textureStream("://brick-bonus.png"));
+		Game::brickTextures[Brick::Property::EXPLOSIVE].loadFromStream(textureStream("://brick-explosive.png"));
+		Game::brickTextures[Brick::Property::RESISTANT_3].loadFromStream(textureStream("://brick-resistant-3.png"));
+		Game::brickTextures[Brick::Property::RESISTANT_2].loadFromStream(textureStream("://brick-resistant-2.png"));
+		Game::brickTextures[Brick::Property::RESISTANT_1].loadFromStream(textureStream("://brick-resistant-1.png"));
+		Game::brickTextures[Brick::Property::RANDOM_EXPLOSIVE].loadFromStream(textureStream("://brick-random-explosive.png"));
+	}
 
 	const auto BUTTONS = 4u;
 	sf::RectangleShape buttons[BUTTONS];

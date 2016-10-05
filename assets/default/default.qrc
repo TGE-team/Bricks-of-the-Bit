@@ -1,10 +1,16 @@
 <RCC>
-    <qresource prefix="/">
-        <file>ball.png</file>
-        <file>brick.png</file>
-        <file>bitfont.ttf</file>
-        <file>city.png</file>
-        <file>frames.png</file>
-        <file>logo.png</file>
-    </qresource>
+	<qresource prefix="/">
+		<file>ball.png</file>
+		<file>brick.png</file>
+		<file>brick-bonus.png</file>
+		<file>brick-explosive.png</file>
+		<file>brick-random-explosive.png</file>
+		<file>brick-resistant-1.png</file>
+		<file>brick-resistant-2.png</file>
+		<file>brick-resistant-3.png</file>
+		<file>bitfont.ttf</file>
+		<file>city.png</file>
+		<file>frames.png</file>
+		<file>logo.png</file>
+	</qresource>
 </RCC>

@@ -9,6 +9,7 @@
 
 #include "QSFML/qresourcestream.hpp"
 #include <array>
+#include <map>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Shader.hpp>
@@ -46,8 +47,9 @@ private:
 	qsf::QResourceStream fontStream;    //Strumień do wczytywania czcionki z zasobów
 
 public:
+	static std::map<Brick::Property, sf::Texture> brickTextures;
+
 	static sf::Texture		  TGELogoTexture;
-	static sf::Texture        brickTexture;    //Textura cegiełek
 	static sf::Texture        ballTexture;     //Tekstura piłek
 	static sf::Texture        backgroundTexture;
 	static sf::Texture        framesTexture;
