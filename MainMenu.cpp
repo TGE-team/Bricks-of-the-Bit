@@ -12,8 +12,11 @@ void mainMenu()
 	Game::TGELogoTexture.loadFromStream(textureStream("://logo.png"));
 	Game::ballTexture.loadFromStream(textureStream("://ball.png"));
 
+	/*
+	 * true - load bricks textures from tex folder
+	 * false - load from assets
+	 */
 	const auto DEBUG_TEXTURES = false;
-
 	if(DEBUG_TEXTURES)
 	{
 		Game::brickTextures[Brick::Property::NONE].loadFromFile("tex/brick.png");
