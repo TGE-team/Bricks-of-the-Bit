@@ -184,7 +184,7 @@ void mainMenu()
 
 		sf::Vector2f acc = decoration.getMomentum();
 		float acceleration = 1.02f;
-		if(sqrt(acc.x * acc.x + acc.y * acc.y) > 15.f * 60.f * frameTime.asSeconds())
+		if(std::sqrt(acc.x * acc.x + acc.y * acc.y) > 15.f * 60.f * frameTime.asSeconds())
 			acceleration = 1.f;
 
 		decoration.update(sf::FloatRect(0, 0, app.getView().getSize().x, app.getView().getSize().y), frameTime);

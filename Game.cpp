@@ -181,8 +181,13 @@ uint16_t Game::mainLoop()
 
 	Brick::x = 1;
 	Brick::y = 3;
+	float drawAccumulate = 1;
+
+	auto internalFrameCount = 0u;
+	sf::Clock internalFpsCountClock;
 	for(sf::Time frameTime; window.isOpen() and !exit; frameTime = frameClock.restart())
 	{
+		++internalFrameCount;
 		float acceleration = 1.0f + (11 - level) * 0.002;
 		if(level >= 11)
 			acceleration = 1.005;
@@ -197,8 +202,9 @@ uint16_t Game::mainLoop()
 
 		if(!ready and Brick::generation >= 0.1f)
 		{
-			Brick::Property prop = Brick::Property::EXPLOSIVE;
-			prop = static_cast<Brick::Property>(bricks.size() % 8);
+			Brick::Property prop = Brick::Property::NONE;
+			if(rand() % 100 > 75)
+				prop = static_cast<Brick::Property>(rand() % (Brick::Property::COUNT - 1) + 1);
 
 			bricks.push_back(Brick(prop));
 			bricks.back().setTexture(&brickTextures[prop]);
@@ -235,16 +241,12 @@ uint16_t Game::mainLoop()
 			}
 		}
 
-		window.draw(background);
-		window.draw(framesSprite);
-
 		sf::Vector2f diff = player.getPosition();
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) and player.getPosition().x + (player.getSize().x / 2.f) < window.getView().getSize().x - 70)
 			player.move(frameTime.asSeconds() * +350.f, 0);
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) and player.getPosition().x - (player.getSize().x / 2.f) > 70.f)
 			player.move(frameTime.asSeconds() * -350.f, 0);
 		diff -= player.getPosition();
-		window.draw(player);
 
 		int roundPoints = player.points * 100;
 		float toPrint = roundPoints / 100.f;
@@ -257,20 +259,12 @@ uint16_t Game::mainLoop()
 		ballsLeftText.setString("Balls left: " + toString(player.ballsLeft - 1));
 		ballsLeftText.setPosition(75, 0);
 
-		fpsMeter.update();
-
-		window.draw(ballsLeftText);
-		window.draw(pointsText);
-		window.draw(comboText);
-		window.draw(fpsMeter);
-
 		ball.update(sf::FloatRect(60, 0, window.getView().getSize().x - 120, window.getView().getSize().y + 50), frameTime);
 		if(ball.collision(player, acceleration, diff / -4.f))
 			player.combo = 0;
 
 		for(size_t i = 0; i < bricks.size(); i++)
 		{
-			window.draw(bricks[i]);
 			if(ball.collision(bricks[i], acceleration))
 			{
 				bricks.erase(bricks.begin() + i);
@@ -369,8 +363,31 @@ uint16_t Game::mainLoop()
 			level++;
 		}
 
-		window.draw(ball);
-		window.display();
+		drawAccumulate += frameTime.asSeconds();
+		if(drawAccumulate >= 2.f / 600.f) {
+			window.draw(background);
+			window.draw(framesSprite);
+
+			window.draw(ballsLeftText);
+			window.draw(pointsText);
+			window.draw(comboText);
+
+			fpsMeter.update();
+			window.draw(fpsMeter);
+
+			window.draw(player);
+
+			for(const Brick& brick: bricks)
+				window.draw(brick);
+
+			window.draw(ball);
+			window.display();
+
+			drawAccumulate = 0.f;
+		}
+		if(internalFpsCountClock.getElapsedTime() > sf::seconds(1)) {
+			std::cout << static_cast<double>(internalFrameCount) / internalFpsCountClock.restart().asSeconds() << " iFPS" << std::endl;
+		}
 	}
 
 	bricks.clear();

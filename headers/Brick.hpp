@@ -15,7 +15,8 @@ public:
 		RESISTANT_3,
 		RESISTANT_2,
 		RESISTANT_1,
-		RANDOM_EXPLOSIVE
+		RANDOM_EXPLOSIVE,
+		COUNT //Not a real type
 	};
 
 	Brick(Property = NONE);

@@ -6,6 +6,7 @@
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Window/Event.hpp>
+#include <cmath>
 
 #include "QSFML/qresourcestream.hpp"
 #include "toString.hpp"
